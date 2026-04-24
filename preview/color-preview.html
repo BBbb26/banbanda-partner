@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>校园搭子小程序 - 紫色主题配色预览</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: #f8fafc;
+            color: #1e293b;
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding: 30px;
+            background: linear-gradient(135deg, #8B5CF6 0%, #A78BFA 100%);
+            color: white;
+            border-radius: 16px;
+            box-shadow: 0 8px 32px rgba(139, 92, 246, 0.2);
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        
+        .header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+        }
+        
+        .theme-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+            margin-bottom: 40px;
+        }
+        
+        .theme-section {
+            background: white;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+        }
+        
+        .theme-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #8B5CF6;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .color-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 16px;
+        }
+        
+        .color-item {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s ease;
+        }
+        
+        .color-item:hover {
+            transform: translateY(-2px);
+        }
+        
+        .color-swatch {
+            height: 80px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: white;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+        }
+        
+        .color-info {
+            padding: 12px;
+            background: white;
+        }
+        
+        .color-name {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+            color: #1e293b;
+        }
+        
+        .color-value {
+            font-size: 0.8rem;
+            color: #64748b;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .gradient-section {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .gradient-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        
+        .gradient-item {
+            height: 120px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        }
+        
+        .usage-section {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            margin-bottom: 40px;
+        }
+        
+        .usage-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        
+        .usage-example {
+            padding: 20px;
+            border-radius: 8px;
+            text-align: center;
+            font-weight: 600;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #64748b;
+            font-size: 0.9rem;
+        }
+        
+        /* 深色模式支持 */
+        @media (prefers-color-scheme: dark) {
+            body {
+                background: #0f172a;
+                color: #f1f5f9;
+            }
+            
+            .theme-section, .usage-section {
+                background: #1e293b;
+            }
+            
+            .color-info {
+                background: #1e293b;
+            }
+            
+            .color-name {
+                color: #f1f5f9;
+            }
+            
+            .color-value {
+                color: #94a3b8;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🎓 校园搭子小程序 - 紫色主题配色方案</h1>
+            <p>基于 Material Design 和 UI/UX Pro Max 最佳实践</p>
+        </div>
+
+        <!-- 主色调方案 -->
+        <div class="theme-section">
+            <h2 class="theme-title">🎨 主色调方案 (Monochromatic)</h2>
+            <div class="color-grid">
+                <div class="color-item">
+                    <div class="color-swatch" style="background: #faf5ff;">50</div>
+                    <div class="color-info">
+                        <div class="color-name">--primary-50</div>
+                        <div class="color-value">#faf5ff</div>
+                    </div>
+                </div>
+                <div class="color-item">
+                    <div class="color-swatch" style="background: #f3e8ff;">100</div>
+                    <div class="color-info">
+                        <div class="color-name">--primary-100</div>
+                        <div class="color-value">#f3e8ff</div>
+                    </div>
+                </div>
+                <div class="color-item">
+                    <div class="color-swatch" style="background: #e9d5ff;">200</div>
+                    <div class="color-info">
+                        <div class="color-name">--primary-200</div>
+                        <div class="color-value">#e9d5ff</div>
+                    </div>
+                </div>
+                <div class="color-item">
+                    <div class="color-swatch" style="background: #d8b4fe;">300</div>
+                    <div class="color-info">
+                        <div class="color-name">--primary-300</div>
+                        <div class="color-value">#d8b4fe</div>
+                    </div>
+                </div>
+                <div class="color-item">
+                    <div class="color-swatch" style="background: #c084fc;">400</div>
+                    <div class="color-info">
+                        <div class="color-name">--primary-400</div>
+                        <div class="color-value">#c084fc</div>
+                    </div>
+                </div>
+                <div class="color-item">
+                    <div class="color-swatch" style="background: #a855f7;">500</div>
+                    <div class="color-info">
+                        <div class="color-name">--primary-500</div>
+                        <div class="color-value">#a855f7</div>
+                    </div>
+                </div>
+                <div class="color-item">
+                    <div class="color-swatch" style="background: #9333ea;">600</div>
+                    <div class="color-info">
+                        <div class="color-name">--primary-600</div>
+                        <div class="color-value">#9333ea</div>
+                    </div>
+                </div>
+                <div class="color-item">
+                    <div class="color-swatch" style="background: #7c3aed;">700</div>
+                    <div class="color-info">
+                        <div class="color-name">--primary-700</div>
+                        <div class="color-value">#7c3aed</div>
+                    </div>
+                </div>
+                <div class="color-item">
+                    <div class="color-swatch" style="background: #6b21a8;">800</div>
+                    <div class="color-info">
+                        <div class="color-name">--primary-800</div>
+                        <div class="color-value">#6b21a8</div>
+                    </div>
+                </div>
+                <div class="color-item">
+                    <div class="color-swatch" style="background: #581c87;">900</div>
+                    <div class="color-info">
+                        <div class="color-name">--primary-900</div>
+                        <div class="color-value">#581c87</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 配色方案类型 -->
+        <div class="theme-grid">
+            <div class="theme-section">
+                <h2 class="theme-title">🔵 互补色方案</h2>
+                <div class="color-grid">
+                    <div class="color-item">
+                        <div class="color-swatch" style="background: #a855f7;">主色</div>
+                        <div class="color-info">
+                            <div class="color-name">--primary</div>
+                            <div class="color-value">#a855f7</div>
+                        </div>
+                    </div>
+                    <div class="color-item">
+                        <div class="color-swatch" style="background: #57a8f7;">互补色</div>
+                        <div class="color-info">
+                            <div class="color-name">--secondary</div>
+                            <div class="color-value">#57a8f7</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="theme-section">
+                <h2 class="theme-title">🌈 类似色方案</h2>
+                <div class="color-grid">
+                    <div class="color-item">
+                        <div class="color-swatch" style="background: #a855f7;">主色</div>
+                        <div class="color-info">
+                            <div class="color-name">--primary</div>
+                            <div class="color-value">#a855f7</div>
+                        </div>
+                    </div>
+                    <div class="color-item">
+                        <div class="color-swatch" style="background: #c855f7;">类似色1</div>
+                        <div class="color-info">
+                            <div class="color-name">--secondary</div>
+                            <div class="color-value">#c855f7</div>
+                        </div>
+                    </div>
+                    <div class="color-item">
+                        <div class="color-swatch" style="background: #8555f7;">类似色2</div>
+                        <div class="color-info">
+                            <div class="color-name">--accent</div>
+                            <div class="color-value">#8555f7</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="theme-section">
+                <h2 class="theme-title">🔺 三角色方案</h2>
+                <div class="color-grid">
+                    <div class="color-item">
+                        <div class="color-swatch" style="background: #a855f7;">主色</div>
+                        <div class="color-info">
+                            <div class="color-name">--primary</div>
+                            <div class="color-value">#a855f7</div>
+                        </div>
+                    </div>
+                    <div class="color-item">
+                        <div class="color-swatch" style="background: #55f7a8;">三角色1</div>
+                        <div class="color-info">
+                            <div class="color-name">--secondary</div>
+                            <div class="color-value">#55f7a8</div>
+                        </div>
+                    </div>
+                    <div class="color-item">
+                        <div class="color-swatch" style="background: #f7a855;">三角色2</div>
+                        <div class="color-info">
+                            <div class="color-name">--accent</div>
+                            <div class="color-value">#f7a855</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 渐变效果 -->
+        <div class="gradient-section">
+            <h2 class="theme-title">🎭 渐变效果</h2>
+            <div class="gradient-grid">
+                <div class="gradient-item" style="background: linear-gradient(135deg, #a855f7 0%, #c084fc 100%);">
+                    主色渐变
+                </div>
+                <div class="gradient-item" style="background: linear-gradient(135deg, #a855f7 0%, #57a8f7 100%);">
+                    互补渐变
+                </div>
+                <div class="gradient-item" style="background: linear-gradient(135deg, #a855f7 0%, #55f7a8 100%);">
+                    三角渐变
+                </div>
+                <div class="gradient-item" style="background: linear-gradient(135deg, #a855f7 0%, #f7a855 100%);">
+                    活力渐变
+                </div>
+            </div>
+        </div>
+
+        <!-- 功能色 -->
+        <div class="theme-section">
+            <h2 class="theme-title">⚡ 功能色</h2>
+            <div class="color-grid">
+                <div class="color-item">
+                    <div class="color-swatch" style="background: #10b981;">成功</div>
+                    <div class="color-info">
+                        <div class="color-name">--success</div>
+                        <div class="color-value">#10b981</div>
+                    </div>
+                </div>
+                <div class="color-item">
+                    <div class="color-swatch" style="background: #f59e0b;">警告</div>
+                    <div class="color-info">
+                        <div class="color-name">--warning</div>
+                        <div class="color-value">#f59e0b</div>
+                    </div>
+                </div>
+                <div class="color-item">
+                    <div class="color-swatch" style="background: #ef4444;">错误</div>
+                    <div class="color-info">
+                        <div class="color-name">--error</div>
+                        <div class="color-value">#ef4444</div>
+                    </div>
+                </div>
+                <div class="color-item">
+                    <div class="color-swatch" style="background: #3b82f6;">信息</div>
+                    <div class="color-info">
+                        <div class="color-name">--info</div>
+                        <div class="color-value">#3b82f6</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 社交活动色 -->
+        <div class="theme-section">
+            <h2 class="theme-title">🎯 社交活动色</h2>
+            <div class="color-grid">
+                <div class="color-item">
+                    <div class="color-swatch" style="background: #667eea;">学习</div>
+                    <div class="color-info">
+                        <div class="color-name">--social-learning</div>
+                        <div class="color-value">#667eea</div>
+                    </div>
+                </div>
+                <div class="color-item">
+                    <div class="color-swatch" style="background: #48bb78;">运动</div>
+                    <div class="color-info">
+                        <div class="color-name">--social-sports</div>
+                        <div class="color-value">#48bb78</div>
+                    </div>
+                </div>
+                <div class="color-item">
+                    <div class="color-swatch" style="background: #f56565;">美食</div>
+                    <div class="color-info">
+                        <div class="color-name">--social-food</div>
+                        <div class="color-value">#f56565</div>
+                    </div>
+                </div>
+                <div class="color-item">
+                    <div class="color-swatch" style="background: #9f7aea;">娱乐</div>
+                    <div class="color-info">
+                        <div class="color-name">--social-entertain</div>
+                        <div class="color-value">#9f7aea</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 使用示例 -->
+        <div class="usage-section">
+            <h2 class="theme-title">💡 使用示例</h2>
+            <div class="usage-grid">
+                <div class="usage-example" style="background: #a855f7; color: white;">
+                    主按钮
+                </div>
+                <div class="usage-example" style="background: #f3e8ff; color: #a855f7;">
+                    次要按钮
+                </div>
+                <div class="usage-example" style="background: #10b981; color: white;">
+                    成功状态
+                </div>
+                <div class="usage-example" style="background: #fef7cd; color: #92400e;">
+                    警告状态
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>🎓 校园搭子小程序 - 紫色主题配色方案 | 基于 Material Design 和 UI/UX Pro Max 最佳实践</p>
+            <p>创建时间: 2026-04-20 | 主色调: 紫色 (#a855f7)</p>
+        </div>
+    </div>
+</body>
+</html>

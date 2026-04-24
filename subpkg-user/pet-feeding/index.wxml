@@ -1,0 +1,51 @@
+<view class="pet-page">
+  <view class="header">
+    <view class="back" bindtap="onBack">返回</view>
+    <view class="title">共同饲养</view>
+    <view class="right"></view>
+  </view>
+
+  <view class="pet-card">
+    <view class="pet-avatar">
+      <image class="pet-image" src="https://zhaodazi-1424531488.cos.ap-shanghai.myqcloud.com/pet-cat.png" mode="aspectFit"></image>
+    </view>
+    <view class="pet-name">{{petNames[Math.min(petLevel, petNames.length - 1)]}}</view>
+    <view class="pet-level">Lv.{{petLevel}}</view>
+  </view>
+
+  <view class="progress-card">
+    <view class="progress-head">
+      <text>成长进度</text>
+      <text>{{currentPoints}} / {{nextLevelPoints}} ⭐</text>
+    </view>
+    <view class="bar-bg">
+      <view class="bar-fg" style="width: {{(currentPoints / nextLevelPoints) * 100}}%;"></view>
+    </view>
+    <text class="remain">还需 {{nextLevelPoints - currentPoints}} 积分升级到 Lv.{{petLevel + 1}}</text>
+  </view>
+
+  <view class="feed-card">
+    <view class="section-title">快速喂养</view>
+    <view class="food-grid">
+      <view wx:for="{{foods}}" wx:key="name" class="food {{item.cls}} {{item.animating ? 'food-animate' : ''}}" data-pts="{{item.pts}}" data-index="{{index}}" bindtap="feedPet">
+        <text class="food-emoji">{{item.emoji}}</text>
+        <text class="food-name">{{item.name}}</text>
+        <text class="food-pts">+{{item.pts}} 积分</text>
+      </view>
+    </view>
+  </view>
+
+  <view class="task-card">
+    <view class="section-title">互动任务</view>
+    <view wx:for="{{tasks}}" wx:key="id" class="task {{item.completed ? 'task-done' : ''}}">
+      <view>
+        <view class="task-title">{{item.title}}</view>
+        <text class="task-reward">奖励 +{{item.reward}} 积分</text>
+      </view>
+      <view wx:if="{{item.completed}}" class="done">✓</view>
+      <view wx:else class="todo">去完成</view>
+    </view>
+  </view>
+
+  <button class="mall-btn" bindtap="toPointsMall">去积分商城兑换好礼</button>
+</view>

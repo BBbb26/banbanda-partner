@@ -1,0 +1,322 @@
+/* ========================================
+   校园搭子小程序 - 全局主题配色系统
+   基于 Material Design 紫色单色方案
+   ======================================== */
+
+page {
+  /* ===== 主色系 - 紫色 ===== */
+  --primary: #A855F7;
+  --primary-light: #C084FC;
+  --primary-dark: #9333EA;
+  --primary-50: #FAF5FF;
+  --primary-100: #F3E8FF;
+  --primary-200: #E9D5FF;
+  --primary-300: #D8B4FE;
+  --primary-400: #C084FC;
+  --primary-500: #A855F7;
+  --primary-600: #9333EA;
+  --primary-700: #7C3AED;
+  --primary-800: #6B21A8;
+  --primary-900: #581C87;
+  --primary-foreground: #FFFFFF;
+
+  /* ===== 中性色 ===== */
+  --background: #FAF5FF;
+  --foreground: #1E1B2E;
+  --card: #FFFFFF;
+  --card-foreground: #1E1B2E;
+  --border: #E9D5FF;
+  --border-light: #F3E8FF;
+  --muted: #F3E8FF;
+  --muted-foreground: #6B7280;
+  --subtle: #A1A1AA;
+
+  /* ===== 强调色 ===== */
+  --accent: #DDD6FE;
+  --accent-foreground: #1E1B2E;
+
+  /* ===== 功能色 ===== */
+  --success: #10B981;
+  --success-light: #ECFDF5;
+  --success-border: #A7F3D0;
+  --warning: #F59E0B;
+  --warning-light: #FFFBEB;
+  --warning-border: #FDE68A;
+  --error: #EF4444;
+  --error-light: #FEF2F2;
+  --destructive: #EF4444;
+  --info: #6366F1;
+  --info-light: #EEF2FF;
+
+  /* ===== 社交活动色 ===== */
+  --social-learning: #667EEA;
+  --social-sports: #48BB78;
+  --social-food: #F56565;
+  --social-entertain: #9F7AEA;
+
+  /* ===== 渐变 ===== */
+  --gradient-primary: linear-gradient(135deg, #A855F7 0%, #C084FC 100%);
+  --gradient-hero: linear-gradient(135deg, #9333EA 0%, #A855F7 50%, #C084FC 100%);
+  --gradient-warm: linear-gradient(180deg, #F3E8FF 0%, #FAF5FF 100%);
+  --gradient-card: linear-gradient(180deg, #FAF5FF 0%, #FFFFFF 100%);
+  --gradient-soft: linear-gradient(135deg, rgba(168,85,247,0.06) 0%, rgba(220,214,254,0.10) 100%);
+
+  /* ===== 阴影 ===== */
+  --shadow-xs: 0 1rpx 3rpx rgba(107, 114, 128, 0.06);
+  --shadow-sm: 0 2rpx 8rpx rgba(168, 85, 247, 0.07);
+  --shadow-md: 0 4rpx 16rpx rgba(168, 85, 247, 0.10);
+  --shadow-lg: 0 8rpx 28rpx rgba(168, 85, 247, 0.14);
+  --shadow-xl: 0 16rpx 48rpx rgba(168, 85, 247, 0.18);
+  --shadow-btn: 0 4rpx 14rpx rgba(168, 85, 247, 0.28);
+  --shadow-btn-hover: 0 6rpx 20rpx rgba(168, 85, 247, 0.38);
+  --shadow-card: 0 2rpx 12rpx rgba(30, 27, 46, 0.05);
+
+  /* ===== 圆角 ===== */
+  --radius-xs: 6rpx;
+  --radius-sm: 10rpx;
+  --radius-md: 14rpx;
+  --radius-lg: 18rpx;
+  --radius-xl: 22rpx;
+  --radius-2xl: 28rpx;
+  --radius-3xl: 36rpx;
+  --radius-full: 9999rpx;
+
+  /* ===== 间距 ===== */
+  --space-1: 4rpx;
+  --space-2: 8rpx;
+  --space-3: 12rpx;
+  --space-4: 16rpx;
+  --space-5: 20rpx;
+  --space-6: 24rpx;
+  --space-8: 32rpx;
+  --space-10: 40rpx;
+  --space-12: 48rpx;
+
+  /* ===== 字体 ===== */
+  --font-xs: 20rpx;
+  --font-sm: 22rpx;
+  --font-base: 24rpx;
+  --font-md: 26rpx;
+  --font-lg: 28rpx;
+  --font-xl: 30rpx;
+  --font-2xl: 34rpx;
+  --font-3xl: 38rpx;
+  --font-4xl: 44rpx;
+  --font-display: 52rpx;
+
+  /* 全局基础设置 */
+  background-color: var(--background);
+  color: var(--foreground);
+  font-size: var(--font-lg);
+  line-height: 1.5;
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', 'Microsoft YaHei', sans-serif;
+  width: 100%;
+  max-width: 100vw;
+  overflow-x: hidden;
+  box-sizing: border-box;
+}
+
+view, text, image, button, input, textarea, scroll-view {
+  box-sizing: border-box;
+}
+
+/* ========================================
+   全局通用组件样式
+   ======================================== */
+
+/* ----- 主按钮 ----- */
+.main-btn {
+  width: 100%;
+  height: 92rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--primary);
+  color: var(--primary-foreground);
+  font-size: var(--font-xl);
+  font-weight: 700;
+  border-radius: var(--radius-xl);
+  border: none;
+  box-shadow: var(--shadow-btn);
+  margin-top: var(--space-8);
+  letter-spacing: 2rpx;
+}
+
+.main-btn::after {
+  border: none;
+}
+
+.main-btn:active {
+  transform: scale(0.97);
+  opacity: 0.92;
+}
+
+/* ----- 次按钮 / 幽灵按钮 ----- */
+.btn-outline {
+  height: 72rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  color: var(--primary);
+  font-size: var(--font-lg);
+  font-weight: 600;
+  border-radius: var(--radius-lg);
+  border: 2rpx solid var(--primary);
+}
+
+.btn-outline:active {
+  background: var(--primary-50);
+}
+
+/* ----- 文字按钮 ----- */
+.btn-text {
+  color: var(--primary);
+  font-size: var(--font-md);
+  font-weight: 600;
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-sm);
+}
+
+.btn-text:active {
+  opacity: 0.7;
+}
+
+/* ----- 卡片 ----- */
+.card {
+  background: var(--card);
+  border-radius: var(--radius-2xl);
+  border: 2rpx solid var(--border);
+  box-shadow: var(--shadow-card);
+}
+
+.card-compact {
+  background: var(--card);
+  border-radius: var(--radius-xl);
+  border: 2rpx solid var(--border);
+}
+
+/* ----- 标签/Tag ----- */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6rpx 16rpx;
+  border-radius: var(--radius-full);
+  font-size: var(--font-sm);
+  font-weight: 500;
+  background: var(--muted);
+  color: var(--foreground);
+  border: 2rpx solid transparent;
+  white-space: nowrap;
+}
+
+.tag-primary {
+  background: var(--primary);
+  color: var(--primary-foreground);
+  border-color: var(--primary);
+  font-weight: 700;
+}
+
+.tag-success {
+  background: var(--success-light);
+  color: var(--success);
+  border-color: var(--success-border);
+}
+
+.tag-warning {
+  background: var(--warning-light);
+  color: var(--warning);
+  border-color: var(--warning-border);
+}
+
+.tag-error {
+  background: var(--error-light);
+  color: var(--error);
+}
+
+/* ----- 输入框 ----- */
+.input-box {
+  background: var(--card);
+  border: 2rpx solid var(--border);
+  border-radius: var(--radius-xl);
+  padding: 0 var(--space-5);
+  font-size: var(--font-lg);
+  color: var(--foreground);
+  height: 84rpx;
+  box-sizing: border-box;
+}
+
+.input-box:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4rpx rgba(168, 85, 247, 0.10);
+}
+
+/* ----- 头部导航通用 ----- */
+.page-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--space-5) var(--space-6);
+  background: var(--card);
+  border-bottom: 2rpx solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.header-back {
+  width: 72rpx;
+  height: 68rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--muted);
+  border: 2rpx solid var(--border);
+  border-radius: var(--radius-lg);
+  color: var(--foreground);
+  font-size: var(--font-xl);
+  flex-shrink: 0;
+}
+
+.header-title {
+  flex: 1;
+  text-align: center;
+  font-size: var(--font-2xl);
+  font-weight: 700;
+  color: var(--foreground);
+}
+
+.header-action {
+  min-width: 120rpx;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+/* ----- 空状态 ----- */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 100rpx var(--space-6);
+}
+
+.empty-icon {
+  font-size: 80rpx;
+  margin-bottom: var(--space-5);
+}
+
+.empty-title {
+  font-size: var(--font-2xl);
+  font-weight: 700;
+  color: var(--foreground);
+  margin-bottom: var(--space-2);
+}
+
+.empty-desc {
+  font-size: var(--font-md);
+  color: var(--muted-foreground);
+  text-align: center;
+}

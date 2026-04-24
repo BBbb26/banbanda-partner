@@ -1,0 +1,56 @@
+<view class="vip-page">
+  <view class="header">
+    <view class="back" bindtap="onBack">返回</view>
+    <text class="head-title">VIP 会员</text>
+    <view class="head-spacer"></view>
+  </view>
+
+  <view class="content">
+    <view class="hero">
+      <view class="hero-icon">👑</view>
+      <text class="hero-h">搭子圈 VIP</text>
+      <text class="hero-p">解锁所有特权，享受极致社交体验</text>
+    </view>
+
+    <view class="plan-card">
+      <text class="plan-label">选择订阅计划</text>
+      <view class="plan-grid">
+        <view
+          wx:for="{{plans}}"
+          wx:key="key"
+          class="plan-item {{selectedPlan === item.key ? 'plan-on' : ''}}"
+          data-key="{{item.key}}"
+          bindtap="selectPlan"
+        >
+          <view wx:if="{{item.save}}" class="save-tag">{{item.save}}</view>
+          <view wx:if="{{item.popular && selectedPlan !== item.key}}" class="hot-tag">推荐</view>
+          <text class="plan-name">{{item.label}}</text>
+          <text class="plan-price">¥{{item.price}}</text>
+          <text class="plan-unit">{{item.unit}}</text>
+        </view>
+      </view>
+    </view>
+
+    <view class="feature-card">
+      <view class="feature-head">VIP 特权清单</view>
+      <view wx:for="{{features}}" wx:key="title" class="feature-row">
+        <view class="feature-icon" style="background: {{item.bg}}">{{item.emoji}}</view>
+        <view class="feature-text">
+          <text class="feature-title">{{item.title}}</text>
+          <text class="feature-desc">{{item.desc}}</text>
+        </view>
+        <text class="feature-check">✓</text>
+      </view>
+    </view>
+
+    <button class="sub-btn" bindtap="subscribe">立即开通 VIP · {{planPriceLine}}</button>
+
+    <view class="trial-tip">
+      <text class="trial-emoji">🎁</text>
+      <view>
+        <text class="trial-h">首次开通享 7 天免费试用</text>
+        <text class="trial-d">试用期内可随时取消。自动续费规则以实际上线为准。</text>
+      </view>
+    </view>
+  </view>
+</view>

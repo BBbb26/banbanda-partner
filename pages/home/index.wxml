@@ -1,0 +1,298 @@
+<view class="home-page">
+  <!-- 头部区域 -->
+  <view class="header-section">
+    <view class="header-decoration"></view>
+    
+    <view class="header-inner">
+      <view class="header-left">
+        <view class="avatar-wrapper">
+          <view class="avatar-circle">
+            <text class="avatar-face">😊</text>
+          </view>
+          <view class="avatar-ring"></view>
+        </view>
+        <view class="greeting-wrapper">
+          <text class="header-greeting">Hi~</text>
+          <text class="header-sub-greeting">一起找搭子吧</text>
+        </view>
+      </view>
+      <view class="header-right">
+        <view class="campus-btn" bindtap="toCampusFeed">
+          <text class="campus-icon">🌐</text>
+          <text class="campus-text">校园圈</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 搜索栏 - 增强大学筛选 -->
+    <view class="search-wrapper">
+      <view class="search-bar">
+        <view class="location-picker" bindtap="onSelectSchool">
+          <text class="loc-icon">📍</text>
+          <text class="loc-text">{{currentSchool}}</text>
+          <text class="loc-arrow">▼</text>
+        </view>
+        <view class="search-divider"></view>
+        <input class="search-input" placeholder="搜索感兴趣的搭子或活动" placeholder-class="search-placeholder" confirm-type="search" bindconfirm="onSearch" bindinput="onSearchInput"/>
+        <view class="search-icon-wrap" bindtap="onSearchEmoji">
+          <text class="search-icon">🔍</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 分类图标 - 恢复原版设计 -->
+  <view class="category-row">
+    <view class="category-item" wx:for="{{categories}}" wx:key="name" data-name="{{item.name}}" bindtap="onCategoryTap">
+      <image class="cat-image" src="{{item.icon}}" mode="aspectFit"></image>
+      <text class="cat-label">{{item.name}}</text>
+    </view>
+  </view>
+
+  <!-- 热门活动板块 - 聚焦活动信息 -->
+  <view class="activity-section">
+    <view class="section-header-bar">
+      <view class="header-left">
+        <view class="live-indicator">
+          <view class="pulse-dot"></view>
+          <text class="live-text">进行中</text>
+        </view>
+        <text class="section-title">热门活动</text>
+      </view>
+      <view class="activity-more" bindtap="toActivityCreate">
+        <text>发布</text>
+        <text class="arrow">›</text>
+      </view>
+    </view>
+    
+    <scroll-view class="activity-scroll" scroll-x>
+      <view class="activity-list">
+        <view class="activity-card {{item.urgent ? 'urgent' : ''}}" wx:for="{{ongoingActivities}}" wx:key="id" bindtap="onActivityTap" data-id="{{item.id}}">
+          <view class="activity-badge-wrap">
+            <view class="activity-badge" style="background: {{item.badgeColor}}">{{item.badge}}</view>
+            <view class="urgent-tag" wx:if="{{item.urgent}}">急</view>
+          </view>
+          <view class="activity-main">
+            <text class="activity-type">{{item.type}}</text>
+            <text class="activity-name">{{item.name}}</text>
+          </view>
+          <view class="activity-meta-grid">
+            <view class="meta-item">
+              <text class="meta-icon">⏰</text>
+              <text class="meta-text">{{item.time}}</text>
+            </view>
+            <view class="meta-item">
+              <text class="meta-icon">📍</text>
+              <text class="meta-text">{{item.location}}</text>
+            </view>
+          </view>
+          <view class="activity-footer">
+            <view class="member-stack">
+              <view wx:for="{{item.members}}" wx:for-item="m" wx:key="*this" class="stack-avatar" style="background: {{m}}"></view>
+              <view class="stack-avatar more-avatar">+</view>
+            </view>
+            <text class="member-count">{{item.memberCount}}/{{item.maxCount}}</text>
+          </view>
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- 精选推荐区域 -->
+  <view class="recommend-section">
+    <view class="section-header">
+      <view class="header-left">
+        <view class="header-icon">💛</view>
+        <text class="section-title">为你精选</text>
+      </view>
+      <view class="filter-tabs">
+        <view wx:for="{{filterTabs}}" wx:key="*this" class="filter-tab {{currentFilter === item ? 'active' : ''}}" data-filter="{{item}}" bindtap="onFilterTap">{{item}}</view>
+      </view>
+    </view>
+
+    <view class="waterfall-container">
+      <view class="waterfall-col">
+        <block wx:for="{{leftItems}}" wx:key="id">
+          <view wx:if="{{item.type === 'user'}}" class="recommend-card user-card" bindtap="onCardTap" data-id="{{item.id}}" data-type="user">
+            <view class="card-cover" style="background: linear-gradient(135deg, {{item.coverColor}} 0%, {{item.coverColor}}B0 100%)">
+              <view class="cover-main">
+                <text class="cover-emoji">{{item.avatarEmoji}}</text>
+              </view>
+              <view class="cover-overlay">
+                <view class="match-badge">
+                  <text class="match-value">{{item.matchScore}}</text>
+                  <text class="match-unit">%</text>
+                </view>
+                <text class="match-label">匹配度</text>
+              </view>
+            </view>
+            <view class="card-body">
+              <view class="user-info-row">
+                <view class="user-main">
+                  <text class="user-name">{{item.name}}</text>
+                  <view class="user-tags">
+                    <text class="user-grade">{{item.grade}}</text>
+                    <text class="user-school">{{item.school}}</text>
+                  </view>
+                </view>
+                <view class="reliability-badge">
+                  <text class="shield-icon">🔒</text>
+                  <text class="score">{{item.reliabilityScore}}</text>
+                </view>
+              </view>
+              <view class="tags-row">
+                <text wx:for="{{item.tags}}" wx:for-item="tag" wx:key="*this" class="tag">{{tag}}</text>
+              </view>
+              <view class="match-reason-row">
+                <text class="match-reason-icon">✨</text>
+                <text class="match-reason">{{item.matchReason}}</text>
+              </view>
+              <view class="card-footer">
+                <view class="footer-row info-row">
+                  <view class="social-proof">
+                    <view class="mini-avatars">
+                      <view wx:for="{{item.socialAvatars}}" wx:for-item="clr" wx:key="*this" class="mini-avatar" style="background: {{clr}}"></view>
+                    </view>
+                    <text class="social-text">{{item.socialCount}}人想组队</text>
+                  </view>
+                </view>
+                <view class="footer-row btn-row">
+                  <view class="action-btn chat-btn" data-id="{{item.id}}" catchtap="onApplyMatch">
+                    <text class="btn-icon">💬</text>
+                    <text class="btn-text">发起对话</text>
+                  </view>
+                </view>
+              </view>
+            </view>
+            <view class="fav-btn" data-id="{{item.id}}" catchtap="onToggleFavorite">
+              <text class="fav-icon {{favorites[item.id] ? 'active' : ''}}">♡</text>
+            </view>
+          </view>
+
+          <view wx:elif="{{item.type === 'ad'}}" class="recommend-card ad-card" bindtap="onAdTap" data-id="{{item.id}}">
+            <view class="ad-badge-small">广告</view>
+            <view class="card-cover ad-cover" style="background: {{item.bgColor}}">
+              <text class="ad-logo-emoji">{{item.logo}}</text>
+            </view>
+            <view class="card-body">
+              <text class="ad-title">{{item.merchant}}</text>
+              <view class="ad-offer-row">
+                <text class="ad-offer">{{item.offer}}</text>
+              </view>
+              <view class="ad-location">
+                <text class="loc-pin">📍</text>
+                <text class="loc-name">{{item.location}}</text>
+              </view>
+            </view>
+          </view>
+        </block>
+      </view>
+
+      <view class="waterfall-col">
+        <block wx:for="{{rightItems}}" wx:key="id">
+          <view wx:if="{{item.type === 'user'}}" class="recommend-card user-card" bindtap="onCardTap" data-id="{{item.id}}" data-type="user">
+            <view class="card-cover" style="background: linear-gradient(135deg, {{item.coverColor}} 0%, {{item.coverColor}}B0 100%)">
+              <view class="cover-main">
+                <text class="cover-emoji">{{item.avatarEmoji}}</text>
+              </view>
+              <view class="cover-overlay">
+                <view class="match-badge">
+                  <text class="match-value">{{item.matchScore}}</text>
+                  <text class="match-unit">%</text>
+                </view>
+                <text class="match-label">匹配度</text>
+              </view>
+            </view>
+            <view class="card-body">
+              <view class="user-info-row">
+                <view class="user-main">
+                  <text class="user-name">{{item.name}}</text>
+                  <view class="user-tags">
+                    <text class="user-grade">{{item.grade}}</text>
+                    <text class="user-school">{{item.school}}</text>
+                  </view>
+                </view>
+                <view class="reliability-badge">
+                  <text class="shield-icon">🔒</text>
+                  <text class="score">{{item.reliabilityScore}}</text>
+                </view>
+              </view>
+              <view class="tags-row">
+                <text wx:for="{{item.tags}}" wx:for-item="tag" wx:key="*this" class="tag">{{tag}}</text>
+              </view>
+              <view class="match-reason-row">
+                <text class="match-reason-icon">✨</text>
+                <text class="match-reason">{{item.matchReason}}</text>
+              </view>
+              <view class="card-footer">
+                <view class="footer-row info-row">
+                  <view class="social-proof">
+                    <view class="mini-avatars">
+                      <view wx:for="{{item.socialAvatars}}" wx:for-item="clr" wx:key="*this" class="mini-avatar" style="background: {{clr}}"></view>
+                    </view>
+                    <text class="social-text">{{item.socialCount}}人想组队</text>
+                  </view>
+                </view>
+                <view class="footer-row btn-row">
+                  <view class="action-btn chat-btn" data-id="{{item.id}}" catchtap="onApplyMatch">
+                    <text class="btn-icon">💬</text>
+                    <text class="btn-text">发起对话</text>
+                  </view>
+                </view>
+              </view>
+            </view>
+            <view class="fav-btn" data-id="{{item.id}}" catchtap="onToggleFavorite">
+              <text class="fav-icon {{favorites[item.id] ? 'active' : ''}}">♡</text>
+            </view>
+          </view>
+
+          <view wx:elif="{{item.type === 'ad'}}" class="recommend-card ad-card" bindtap="onAdTap" data-id="{{item.id}}">
+            <view class="ad-badge-small">广告</view>
+            <view class="card-cover ad-cover" style="background: {{item.bgColor}}">
+              <text class="ad-logo-emoji">{{item.logo}}</text>
+            </view>
+            <view class="card-body">
+              <text class="ad-title">{{item.merchant}}</text>
+              <view class="ad-offer-row">
+                <text class="ad-offer">{{item.offer}}</text>
+              </view>
+              <view class="ad-location">
+                <text class="loc-pin">📍</text>
+                <text class="loc-name">{{item.location}}</text>
+              </view>
+            </view>
+          </view>
+        </block>
+      </view>
+    </view>
+  </view>
+
+  <!-- 悬浮发布按钮 -->
+  <view class="fab" bindtap="toActivityCreate">
+    <text class="fab-icon">+</text>
+    <text class="fab-text">发布</text>
+  </view>
+
+  <!-- 大学选择器弹窗 -->
+  <view class="school-picker-modal" wx:if="{{showSchoolPicker}}" bindtap="onCloseSchoolPicker">
+    <view class="school-picker-content" catchtap="preventBubble">
+      <view class="school-picker-header">
+        <text class="school-picker-title">选择学校</text>
+        <text class="school-picker-close" bindtap="onCloseSchoolPicker">×</text>
+      </view>
+      <view class="school-search">
+        <text class="school-search-icon">🔍</text>
+        <input class="school-search-input" placeholder="搜索大学名称" bindinput="onSchoolSearch" value="{{schoolSearchKey}}"/>
+      </view>
+      <scroll-view class="school-list" scroll-y="true" enable-flex="true">
+        <view class="school-item {{item.name === currentSchool ? 'selected' : ''}}" wx:for="{{filteredSchools}}" wx:key="name" bindtap="onSelectSchoolItem" data-name="{{item.name}}">
+          <text class="school-item-name">{{item.name}}</text>
+          <text class="school-item-check" wx:if="{{item.name === currentSchool}}">✓</text>
+        </view>
+        <view class="school-item" wx:if="{{filteredSchools.length === 0}}">
+          <text class="school-item-name">未找到相关学校</text>
+        </view>
+      </scroll-view>
+    </view>
+  </view>
+</view>

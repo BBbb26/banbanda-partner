@@ -1,0 +1,85 @@
+<view class="activity-page">
+  <view class="header">
+    <view class="back" bindtap="onBack">返回</view>
+    <view class="title">创建活动</view>
+    <view class="right"></view>
+  </view>
+
+  <view class="section">
+    <view class="label">活动类型</view>
+    <view class="row-2">
+      <view class="option {{activityType==='single'?'option-on':''}}" data-type="single" bindtap="selectType">找单人搭子</view>
+      <view class="option {{activityType==='group'?'option-on':''}}" data-type="group" bindtap="selectType">一键组局（多人）</view>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="label">活动场景 *</view>
+    <view class="chips">
+      <view
+        wx:for="{{scenarios}}"
+        wx:key="*this"
+        class="chip {{scenario===item?'chip-on':''}}"
+        data-value="{{item}}"
+        bindtap="selectScenario"
+      >
+        {{item}}
+      </view>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="label">活动标题 *</view>
+    <input class="input input-tall" placeholder="例如：晚上7点图书馆学习" data-key="title" bindinput="onInput" value="{{title}}" />
+  </view>
+
+  <view class="section">
+    <view class="label">时间 *</view>
+    <view class="time-row">
+      <picker mode="date" value="{{date}}" bindchange="onDateChange" start="{{today}}">
+        <view class="picker-box">
+          <text class="{{date ? 'picker-val' : 'picker-ph'}}">{{date || '年 / 月 / 日'}}</text>
+          <text class="picker-arrow">▼</text>
+        </view>
+      </picker>
+      <picker mode="time" value="{{time}}" bindchange="onTimeChange">
+        <view class="picker-box">
+          <text class="{{time ? 'picker-val' : 'picker-ph'}}">{{time || '时 : 分'}}</text>
+          <text class="picker-arrow">▼</text>
+        </view>
+      </picker>
+    </view>
+  </view>
+
+  <view class="section">
+    <view class="label">地点 *</view>
+    <input class="input input-tall" placeholder="例如：清华大学图书馆三层" data-key="location" bindinput="onInput" value="{{location}}" />
+  </view>
+
+  <view wx:if="{{activityType==='group'}}" class="section">
+    <view class="label">人数限制</view>
+    <input class="input input-tall" type="number" placeholder="例如：4" data-key="peopleLimit" bindinput="onInput" value="{{peopleLimit}}" />
+  </view>
+
+  <view class="section">
+    <view class="label">备注说明</view>
+    <textarea class="textarea" placeholder="补充活动详情、要求等..." data-key="remark" bindinput="onInput" value="{{remark}}" />
+  </view>
+
+  <view class="section">
+    <view class="label">费用分摊</view>
+    <view class="row-3">
+      <view
+        wx:for="{{costOptions}}"
+        wx:key="*this"
+        class="option {{costSharing===item?'option-accent':''}}"
+        data-value="{{item}}"
+        bindtap="selectCost"
+      >
+        {{item}}
+      </view>
+    </view>
+  </view>
+
+  <button class="publish-btn" bindtap="publishActivity">发布活动</button>
+</view>

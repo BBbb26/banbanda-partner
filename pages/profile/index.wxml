@@ -1,0 +1,111 @@
+<view class="profile-page">
+  <!-- ====== 头部 Hero 区域：左右布局（参考截图2）====== -->
+  <view class="hero">
+    <view class="hero-main">
+      <!-- 左侧：头像 + 认证徽章 -->
+      <view class="hero-left">
+        <view class="avatar-box">
+          <text class="avatar-emoji">{{userProfile.avatarEmoji}}</text>
+        </view>
+        <view class="verify-badge">
+          <text class="verify-icon">✓</text>
+        </view>
+      </view>
+
+      <!-- 右侧：信息区 -->
+      <view class="hero-right">
+        <view class="top-row">
+          <text class="name">{{userProfile.name}}</text>
+          <view wx:if="{{userProfile.isVerified}}" class="verified-tag">已认证</view>
+          <view class="edit-btn" bindtap="onEditProfile">
+            <text class="edit-icon">⚙</text>
+          </view>
+        </view>
+        <text class="school-info">{{userProfile.school}} · {{userProfile.grade}}</text>
+        <view class="score-row">
+          <text class="star-icon">★★★★☆</text>
+          <text class="score-num">{{userProfile.reliabilityScore}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 统计卡片行 -->
+    <view class="stats-row">
+      <view class="stat-card">
+        <text class="stat-icon">🏆</text>
+        <view class="stat-val">{{userProfile.completedActivities}}</view>
+        <text class="stat-label">完成活动</text>
+      </view>
+      <view class="stat-card">
+        <text class="stat-icon">🤝</text>
+        <view class="stat-val">{{userProfile.activePartners}}</view>
+        <text class="stat-label">活跃搭子</text>
+      </view>
+      <view class="stat-card {{userProfile.currentPoints > 0 ? 'stat-tappable' : ''}}" bindtap="toPointsMall">
+        <text class="stat-icon">⭐</text>
+        <view class="stat-val">{{userProfile.currentPoints}}</view>
+        <text class="stat-label">我的积分</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- VIP 卡片 -->
+  <view wx:if="{{!userProfile.isVIP}}" class="vip-card" bindtap="toVIP">
+    <view class="vip-header">
+      <text class="vip-title">解锁 VIP 专属权益</text>
+      <text class="vip-badge-tag">限时优惠</text>
+    </view>
+    <text class="vip-sub">更多匹配 · 无广告 · 双倍积分</text>
+    <view class="vip-btn">立即升级</view>
+  </view>
+
+  <!-- 菜单功能列表 -->
+  <view class="menu-section">
+    <view
+      wx:for="{{menuItems}}"
+      wx:key="label"
+      class="menu-item"
+      data-path="{{item.path}}"
+      bindtap="onMenuTap"
+    >
+      <text class="menu-icon">{{item.icon}}</text>
+      <text class="menu-label">{{item.label}}</text>
+      <text class="arrow">›</text>
+    </view>
+  </view>
+
+  <!-- 安全与认证区域（参考截图1） -->
+  <view class="security-section">
+    <!-- 实名认证 -->
+    <view class="sec-item sec-auth" bindtap="onAuthVerify">
+      <view class="sec-left">
+        <view class="sec-icon-wrap sec-blue">
+          <text class="sec-icon">🛡</text>
+        </view>
+        <view class="sec-body">
+          <text class="sec-title">实名认证</text>
+          <text class="sec-desc">提升账号可信度，获得更多推荐</text>
+        </view>
+      </view>
+      <view wx:if="{{userProfile.isRealNameAuth}}" class="auth-status verified-status">已认证</view>
+      <text wx:else class="arrow">›</text>
+    </view>
+
+    <!-- 紧急联系人设置 -->
+    <view class="sec-item sec-emergency" bindtap="onEmergencyContact">
+      <view class="sec-left">
+        <view class="sec-icon-wrap sec-yellow">
+          <text class="sec-icon">SOS</text>
+        </view>
+        <view class="sec-body">
+          <text class="sec-title">紧急联系人设置</text>
+          <text class="sec-desc">{{emergencyContact || '添加紧急联系人，保障出行安全'}}</text>
+        </view>
+      </view>
+      <text class="arrow">›</text>
+    </view>
+  </view>
+
+  <!-- 底部安全间距 -->
+  <view class="bottom-spacer"></view>
+</view>

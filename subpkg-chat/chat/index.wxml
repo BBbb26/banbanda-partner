@@ -1,0 +1,170 @@
+<view class="chat-page">
+  <!-- 顶部导航栏 -->
+  <view class="nav-bar">
+    <view class="nav-back" bindtap="onBack">
+      <text class="back-icon">‹</text>
+    </view>
+    <view class="nav-center" bindtap="toggleUserInfo">
+      <text class="nav-name">{{partnerInfo.name}}</text>
+      <view class="nav-status-row">
+        <view class="status-dot"></view>
+        <text class="status-text">在线</text>
+      </view>
+    </view>
+    <view class="nav-right-btn" bindtap="toggleUserInfo">
+      <text class="chevron-icon {{showUserInfo ? 'rotated' : ''}}">∨</text>
+    </view>
+  </view>
+
+  <!-- 对方信息抽屉 -->
+  <view wx:if="{{showUserInfo}}" class="info-drawer">
+    <view class="drawer-inner">
+      <view class="drawer-header">
+        <view class="drawer-avatar-wrap" style="background: {{partnerInfo.avatarColor}}">
+          <text class="drawer-avatar-emoji">{{partnerInfo.avatarEmoji}}</text>
+        </view>
+        <view class="drawer-info">
+          <text class="drawer-name">{{partnerInfo.name}}</text>
+          <text class="drawer-school">{{partnerInfo.school}}</text>
+          <view class="score-badge">
+            <text class="score-icon">⚠</text>
+            <text class="score-label">靠谱度 {{partnerInfo.reliabilityScore}}</text>
+          </view>
+        </view>
+      </view>
+      <view class="drawer-tags-row">
+        <text class="tags-label">共同标签</text>
+        <view wx:for="{{partnerInfo.commonTags}}" wx:key="*this" class="drawer-tag">{{item}}</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 宠物提示横幅 -->
+  <view wx:if="{{showPetTip}}" class="pet-banner">
+    <text class="pet-icon">🐾</text>
+    <view class="pet-body">
+      <text class="pet-title">和搭子领养一只专属宠物 🐾 去看看</text>
+      <text class="pet-subtitle">积累积分，一起养成可爱小宠物</text>
+    </view>
+    <view class="pet-link" bindtap="toPetFeeding">
+      <text class="pet-link-text">去看看</text>
+      <text class="pet-arrow">›</text>
+    </view>
+    <view class="pet-dismiss" bindtap="closePetTip"><text>✕</text></view>
+  </view>
+
+  <!-- 消息列表 -->
+  <view class="message-area">
+    <scroll-view
+      id="msg-scroll"
+      class="msg-list"
+      scroll-y="{{true}}"
+      scroll-top="{{scrollTop}}"
+      scroll-with-animation="{{scrollAnim}}"
+      enhanced="{{true}}"
+      show-scrollbar="{{false}}"
+      bindscroll="onScroll"
+      bindscrolltolower="onScrollToLower"
+      bindscrolltoupper="onScrollToUpper"
+    >
+      <!-- 加载更多历史提示 -->
+      <view class="load-more-tip" wx:if="{{loadingHistory}}">
+        <text class="load-more-text">加载历史消息...</text>
+      </view>
+
+      <block wx:for="{{displayMessages}}" wx:key="id">
+        <!-- 时间居中行 -->
+        <view wx:if="{{item.showTime}}" class="time-center">
+          <text class="time-text">{{item.dateLabel}}</text>
+        </view>
+
+        <!-- 对方消息：[头像][气泡] -->
+        <view wx:if="{{item.sender === 'other'}}" id="msg-{{item.id}}" class="msg-row other">
+          <view class="msg-avatar" style="background: {{partnerInfo.avatarColor}}"></view>
+          <view class="msg-bubble other">
+            <text decode class="bubble-text">{{item.text}}</text>
+          </view>
+        </view>
+
+        <!-- 我的消息：[气泡][头像] -->
+        <view wx:if="{{item.sender === 'me'}}" id="msg-{{item.id}}" class="msg-row me">
+          <view class="msg-bubble me">
+            <text decode class="bubble-text">{{item.text}}</text>
+          </view>
+          <view class="msg-avatar">
+            <image src="{{myAvatar.src}}" mode="aspectFill"></image>
+          </view>
+        </view>
+      </block>
+
+      <!-- 安全提示 -->
+      <view class="safety-tip" wx:if="{{messages.length > 0}}">
+        <text class="safety-icon">⚠</text>
+        <text class="safety-text">初次见面建议在公共场所，可使用「安全分享」功能</text>
+      </view>
+    </scroll-view>
+
+    <!-- 回到最新按钮 -->
+    <view
+      wx:if="{{showScrollDownBtn}}"
+      class="scroll-down-btn"
+      bindtap="scrollToBottom"
+    >
+      <text class="scroll-down-count" wx:if="{{unreadCount > 0}}">{{unreadCount > 99 ? '99+' : unreadCount}}条新消息</text>
+      <text class="scroll-down-arrow">↓ 回到最新</text>
+    </view>
+  </view>
+
+  <!-- 快捷回复面板 -->
+  <view wx:if="{{showQuickMessages}}" class="quick-panel">
+    <view class="quick-panel-inner">
+      <view class="quick-head">
+        <text class="quick-title">快速破冰</text>
+        <text class="quick-collapse" bindtap="toggleQuickMessages">收起</text>
+      </view>
+      <view class="quick-grid">
+        <view
+          wx:for="{{quickMessageList}}"
+          wx:key="text"
+          class="quick-card"
+          data-text="{{item.text}}"
+          bindtap="sendQuickMessage"
+        >
+          <text class="quick-card-emoji">{{item.emoji}}</text>
+          <text class="quick-card-text">{{item.text}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 输入区域 -->
+  <view class="input-area">
+    <view class="toolbar">
+      <view class="tool-btn tool-location">
+        <text class="tool-icon">📍</text>
+        <text class="tool-label">位置</text>
+      </view>
+      <view class="tool-btn tool-pet" bindtap="toPetFeeding">
+        <text class="tool-icon">🐾</text>
+        <text class="tool-label">共同饲养</text>
+      </view>
+      <view class="tool-btn tool-ice" bindtap="toggleQuickMessages">
+        <text class="tool-icon">☺</text>
+        <text class="tool-label">破冰</text>
+      </view>
+    </view>
+    <view class="input-row">
+      <input
+        class="chat-input"
+        value="{{message}}"
+        placeholder="说点什么..."
+        confirm-type="send"
+        bindinput="onInput"
+        bindconfirm="sendMessage"
+      />
+      <view class="send-btn-wrap {{message.trim() ? 'active' : ''}}" bindtap="sendMessage">
+        <text class="send-icon">➤</text>
+      </view>
+    </view>
+  </view>
+</view>

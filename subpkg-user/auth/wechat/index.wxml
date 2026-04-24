@@ -1,0 +1,56 @@
+<view class="container">
+  <swiper class="onboarding-swiper" current="{{current}}" indicator-dots="{{true}}" indicator-color="rgba(140, 105, 224, 0.2)" indicator-active-color="#3b82f6" bindchange="handleSwiperChange">
+    
+    <swiper-item>
+      <view class="slide">
+        <view class="illustration-box main-bg">
+          <image class="ip-image floating" src="https://zhaodazi-1424531488.cos.ap-shanghai.myqcloud.com/ip-main.png" mode="aspectFit"></image>
+        </view>
+        <view class="content">
+          <text class="brand-title">半伴搭</text>
+          <text class="slogan">校园找搭子，协作不孤单</text>
+          <text class="sub-features">AI精准推荐 | 场景化组队 | 平台护航</text>
+          <button class="btn btn-primary" bindtap="nextSlide">开始探索</button>
+        </view>
+      </view>
+    </swiper-item>
+
+    <swiper-item>
+      <view class="slide">
+        <view class="illustration-box">
+          <image class="ip-image floating" src="https://zhaodazi-1424531488.cos.ap-shanghai.myqcloud.com/ip-ai.png" mode="aspectFit"></image>
+        </view>
+        <view class="content">
+          <text class="title">AI精准推荐，找到合拍搭档。</text>
+          <text class="desc">智能算法，为你推荐兴趣相投的任务伙伴。</text>
+        </view>
+      </view>
+    </swiper-item>
+
+    <swiper-item>
+      <view class="slide">
+        <view class="illustration-box">
+          <image class="ip-image floating" src="https://zhaodazi-1424531488.cos.ap-shanghai.myqcloud.com/ip-scene.png" mode="aspectFit"></image>
+        </view>
+        <view class="content">
+          <text class="title">场景化组队，协作更高效。</text>
+          <text class="desc">学习、运动、干饭……随时随地找到对的搭档。</text>
+        </view>
+      </view>
+    </swiper-item>
+
+    <swiper-item>
+      <view class="slide">
+        <view class="illustration-box">
+          <image class="ip-image floating" src="https://zhaodazi-1424531488.cos.ap-shanghai.myqcloud.com/ip-security.png" mode="aspectFit"></image>
+        </view>
+        <view class="content">
+          <text class="title">平台护航，放心协作。</text>
+          <text class="desc">实名认证，平台保障，校园协作更安心。</text>
+          <button class="btn btn-primary btn-large" bindtap="startApp">进入半伴搭</button>
+        </view>
+      </view>
+    </swiper-item>
+
+  </swiper>
+</view>

@@ -1,0 +1,121 @@
+<view class="campus-page">
+  <!-- 顶部区域：Hero插画 + 标题/按钮浮动其上 -->
+  <view class="hero-section">
+    <!-- 秋千插画横幅（背景） -->
+    <view class="hero-banner">
+      <image src="https://zhaodazi-1424531488.cos.ap-shanghai.myqcloud.com/hero-swing.jpg" mode="widthFix" class="swing-img"></image>
+    </view>
+
+    <!-- 标题 + 发布按钮（浮于图片上方，仅保留按钮） -->
+    <view class="hero-header">
+      <view></view>
+      <view class="publish-btn" bindtap="onPublish">
+        <text class="pub-icon">+</text>
+        <text class="pub-text">发布</text>
+      </view>
+    </view>
+
+    <!-- 搜索栏 -->
+    <view class="search-row">
+      <view class="search-box">
+        <text class="search-icon" bindtap="onSearchEmoji">🔍</text>
+        <input
+          class="search-input"
+          placeholder="找搭子 / 学习 / 饭搭子"
+          confirm-type="search"
+          bindconfirm="onSearch"
+          bindinput="onSearchInput"
+        />
+        <view class="voice-btn">
+          <text class="voice-icon">🎤</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- Tab 栏 -->
+  <view class="tab-bar">
+    <scroll-view scroll-x="{{true}}" class="tab-scroll">
+      <block wx:for="{{tabs}}" wx:key="index">
+        <view
+          class="tab-item {{currentTab === index ? 'active' : ''}}"
+          bindtap="switchTab"
+          data-index="{{index}}"
+        >
+          <text>{{item}}</text>
+        </view>
+      </block>
+    </scroll-view>
+  </view>
+
+  <!-- 内容流 -->
+  <scroll-view scroll-y="{{true}}" class="feed-scroll">
+    <view class="feed-list">
+      <block wx:for="{{posts}}" wx:key="id">
+        <view class="post-card">
+          <!-- 用户信息 -->
+          <view class="post-user">
+            <view class="user-avatar" style="background: {{item.avatarColor || '#E8EEFF'}}">
+              <text class="avatar-emoji">{{item.avatarEmoji}}</text>
+            </view>
+            <view class="user-meta">
+              <text class="user-name">{{item.name}}</text>
+              <text class="user-time">{{item.time}}</text>
+            </view>
+            <view class="follow-btn" data-id="{{item.id}}" catchtap="onFollow">
+              <text>关注</text>
+            </view>
+          </view>
+
+          <!-- 正文 -->
+          <text class="post-content">{{item.content}}</text>
+
+          <!-- 配图 -->
+          <view wx:if="{{item.images.length > 0}}" class="post-images">
+            <image
+              wx:for="{{item.images}}"
+              wx:for-item="imgSrc"
+              wx:key="*this"
+              src="{{imgSrc}}"
+              mode="aspectFill"
+              class="post-img"
+            ></image>
+          </view>
+
+          <!-- 位置标签 -->
+          <view wx:if="{{item.location}}" class="location-tag">
+            <text>📍 {{item.location}}</text>
+          </view>
+
+          <!-- 互动栏 -->
+          <view class="action-bar">
+            <view class="action-left">
+              <view class="action-item" data-id="{{item.id}}" bindtap="onLike">
+                <text class="action-icon">{{item.liked ? '❤️' : '🤍'}}</text>
+                <text>{{item.likes}}</text>
+              </view>
+              <view class="action-item" data-id="{{item.id}}" bindtap="onComment">
+                <text class="action-icon">💬</text>
+                <text>{{item.comments}}</text>
+              </view>
+            </view>
+            <view class="emoji-reactions">
+              <view wx:for="{{reactions}}" wx:key="*this" wx:for-item="r" class="react-chip" data-post-id="{{item.id}}" data-emoji="{{r.emoji}}" data-label="{{r.label}}" catchtap="onReact">
+                <text class="react-emoji">{{r.emoji}}</text>
+                <text class="react-label">{{r.label}}</text>
+              </view>
+            </view>
+          </view>
+
+          <!-- CTA 按钮 -->
+          <view class="cta-btn" data-id="{{item.id}}" bindtap="onJoin">
+            <text>👯 一起组队</text>
+          </view>
+        </view>
+      </block>
+
+      <!-- 底部占位 -->
+      <view class="feed-bottom"></view>
+    </view>
+  </scroll-view>
+</view>

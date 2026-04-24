@@ -1,0 +1,69 @@
+<view class="fav-page">
+  <view class="header">
+    <view class="back" bindtap="onBack">返回</view>
+    <view class="head-title">我的收藏</view>
+    <view wx:if="{{!compareMode}}" class="head-action">
+      <view class="cmp-btn {{selectedIds.length >= 2 ? 'cmp-btn-on' : 'cmp-btn-off'}}" bindtap="enterCompare">对比模式</view>
+    </view>
+    <view wx:else class="head-action">
+      <view class="cmp-exit" bindtap="exitCompare">退出对比</view>
+    </view>
+  </view>
+
+  <view wx:if="{{!compareMode}}" class="main">
+    <view wx:if="{{selectedIds.length > 0}}" class="hint">
+      已选择 {{selectedIds.length}} 位搭子
+      <text wx:if="{{selectedIds.length >= 2}}">，可进入对比模式</text>
+      <text wx:if="{{selectedIds.length < 3}}">（最多 3 位）</text>
+    </view>
+
+    <view wx:for="{{users}}" wx:key="id" class="card">
+      <view class="card-inner">
+        <view class="check {{selectedMap[item.id] ? 'check-on' : ''}}" data-id="{{item.id}}" bindtap="toggleSelect">
+          {{selectedMap[item.id] ? '✓' : ''}}
+        </view>
+        <view class="avatar-wrap">
+          <view class="avatar">{{item.avatar}}</view>
+          <view class="star">★</view>
+        </view>
+        <view class="info">
+          <view class="name-row">
+            <text class="name">{{item.name}}</text>
+          </view>
+          <text class="meta">{{item.school}} · {{item.grade}}</text>
+          <view class="badges">
+            <text class="badge badge-success">{{item.matchScore}}%</text>
+            <text class="badge badge-primary">{{item.reliabilityScore}}</text>
+          </view>
+          <view class="tags">
+            <text wx:for="{{item.tags}}" wx:for-item="tag" wx:for-index="ti" wx:key="*this" wx:if="{{ti < 4}}" class="tag">{{tag}}</text>
+            <text wx:if="{{item.tags.length > 4}}" class="more-tag">+{{item.tags.length - 4}}</text>
+          </view>
+          <button class="chat-btn" data-id="{{item.id}}" bindtap="toChat">发起聊天</button>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <view wx:else class="compare">
+    <view class="hint center">正在对比 {{compareList.length}} 位搭子</view>
+    <view class="compare-grid">
+      <view wx:for="{{compareList}}" wx:key="id" class="compare-card">
+        <view class="compare-avatar">{{item.avatar}}</view>
+        <view class="compare-name">{{item.name}}</view>
+        <text class="compare-meta">{{item.school}}</text>
+        <view class="compare-scores">
+          <view class="score-box green">AI 匹配 {{item.matchScore}}%</view>
+          <view class="score-box blue">靠谱 {{item.reliabilityScore}}</view>
+        </view>
+        <view class="compare-tags">
+          <text wx:for="{{item.tags}}" wx:for-item="tag" wx:for-index="ti" wx:key="*this" wx:if="{{ti < 5}}" class="tag">{{tag}}</text>
+        </view>
+        <button class="chat-btn" data-id="{{item.id}}" bindtap="toChat">发起聊天</button>
+      </view>
+      <view wx:if="{{compareList.length === 2}}" class="compare-placeholder">
+        <text>可选择第 3 位搭子进行对比</text>
+      </view>
+    </view>
+  </view>
+</view>

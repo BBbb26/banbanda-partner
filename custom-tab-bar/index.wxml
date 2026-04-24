@@ -1,0 +1,19 @@
+<view class="tab-bar">
+  <view class="tab-bar-inner">
+    <view
+      wx:for="{{list}}"
+      wx:key="pagePath"
+      class="tab-item {{animIndex === index ? 'tab-pop' : ''}}"
+      data-index="{{index}}"
+      bindtap="switchTab"
+    >
+      <image
+        class="tab-icon {{selected === index ? 'tab-icon-active' : ''}} {{animIndex === index ? 'icon-bounce' : ''}}"
+        src="{{selected === index ? item.activeIcon : item.icon}}"
+        mode="aspectFit"
+      ></image>
+      <text class="tab-text" style="color: {{selected === index ? selectedColor : color}}">{{item.text}}</text>
+      <view wx:if="{{selected === index}}" class="tab-line"></view>
+    </view>
+  </view>
+</view>

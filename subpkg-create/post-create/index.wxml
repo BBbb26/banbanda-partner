@@ -1,0 +1,54 @@
+<view class="create-page">
+  <view class="header">
+    <view class="back" bindtap="onBack">返回</view>
+    <view class="title">发布动态</view>
+    <view class="publish" bindtap="publishPost">发布</view>
+  </view>
+
+  <view class="body">
+    <textarea
+      class="content-box"
+      placeholder="分享你的校园生活..."
+      value="{{content}}"
+      bindinput="onContentInput"
+    />
+
+    <view class="section-title">添加图片 ({{images.length}}/9)</view>
+    <view class="img-grid">
+      <view wx:for="{{images}}" wx:key="*this" class="img-item">
+        <image class="img" src="{{item}}" mode="aspectFill"></image>
+        <view class="img-del" data-index="{{index}}" bindtap="removeImage">×</view>
+      </view>
+      <view wx:if="{{images.length < 9}}" class="img-add" bindtap="chooseImages">
+        <text class="camera-icon">📷</text>
+        <text class="add-text">添加图片</text>
+      </view>
+    </view>
+
+    <view class="loc-card" bindtap="toggleLocationPicker">
+      <view class="loc-title">{{selectedLocation || "添加位置（可关联商家）"}}</view>
+      <text class="loc-sub">{{selectedLocation ? "点击可重新选择" : "选择周边商家，获得更多曝光"}}</text>
+    </view>
+
+    <view wx:if="{{showLocationPicker}}" class="loc-list">
+      <view
+        wx:for="{{nearbyMerchants}}"
+        wx:key="id"
+        class="loc-item"
+        data-name="{{item.name}}"
+        bindtap="selectLocation"
+      >
+        <view>
+          <view class="loc-name">{{item.name}}</view>
+          <text class="loc-cat">{{item.category}}</text>
+        </view>
+        <text class="loc-dis">{{item.distance}}</text>
+      </view>
+    </view>
+
+    <view wx:if="{{selectedLocation && !showLocationPicker}}" class="selected-loc">
+      <text>📍 {{selectedLocation}}</text>
+      <text class="clear-loc" bindtap="clearLocation">清除</text>
+    </view>
+  </view>
+</view>

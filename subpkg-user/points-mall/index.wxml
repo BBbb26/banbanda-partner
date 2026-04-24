@@ -1,0 +1,67 @@
+<view class="mall-page">
+  <view class="header">
+    <view class="header-left">
+      <view class="back" bindtap="onBack">返回</view>
+      <text class="head-title">积分商城</text>
+    </view>
+    <view class="points-chip">
+      <text>⭐</text>
+      <text class="pts">{{currentPoints}}</text>
+    </view>
+  </view>
+
+  <view class="content">
+    <view class="hero">
+      <text class="hero-label">我的积分余额</text>
+      <view class="hero-row">
+        <text class="hero-num">{{currentPoints}}</text>
+        <text class="hero-unit">积分</text>
+      </view>
+      <view class="hero-btn">查看积分明细 →</view>
+    </view>
+
+    <scroll-view class="cat-scroll" scroll-x>
+      <view
+        wx:for="{{categories}}"
+        wx:key="*this"
+        class="cat-pill {{selectedCategory === item ? 'cat-on' : ''}}"
+        data-cat="{{item}}"
+        bindtap="onCategoryTap"
+      >
+        {{item}}
+      </view>
+    </scroll-view>
+
+    <view wx:for="{{filteredList}}" wx:key="id" class="product">
+      <view class="p-icon">{{item.icon}}</view>
+      <view class="p-body">
+        <text class="p-name">{{item.name}}</text>
+        <view class="p-meta">
+          <text class="p-cat">{{item.category}}</text>
+          <text class="p-stock">{{item.stock}}</text>
+        </view>
+        <view class="p-row">
+          <text class="p-cost">⭐ {{item.points}} 积分</text>
+          <view
+            class="p-ex {{currentPoints >= item.points ? 'p-ex-on' : 'p-ex-off'}}"
+            data-points="{{item.points}}"
+            bindtap="onExchange"
+          >
+            {{currentPoints >= item.points ? "立即兑换" : "积分不足"}}
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="earn-card">
+      <view class="earn-title">如何获得积分？</view>
+      <view wx:for="{{earnTips}}" wx:key="title" class="earn-row">
+        <text class="earn-emoji">{{item.emoji}}</text>
+        <view>
+          <text class="earn-h">{{item.title}}</text>
+          <text class="earn-d">{{item.desc}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

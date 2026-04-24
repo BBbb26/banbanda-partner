@@ -1,0 +1,64 @@
+/* pages/tags/index.wxss - 紫色主题版 */
+
+page {
+  --background: #FAF5FF;
+  --foreground: #1E1B2E;
+  --card: #ffffff;
+  --primary: #A855F7;
+  --primary-foreground: #FFFFFF;
+  --accent: #DDD6FE;
+  --border: #E9D5FF;
+  --muted: #F3E8FF;
+  --muted-foreground: #6B7280;
+  --radius-sm: 14rpx;
+  --radius-md: 20rpx;
+  --radius-lg: 30rpx;
+}
+
+.tag-page {
+  min-height: 100vh; background: var(--background); padding: 24rpx;
+}
+
+.progress-card {
+  background: var(--card); border: 2rpx solid var(--border);
+  border-radius: var(--radius-lg); padding: 20rpx; display: flex; align-items: center;
+}
+
+.step {
+  width: 48rpx; height: 48rpx; border-radius: 50%;
+  text-align: center; line-height: 48rpx; font-size: 24rpx; font-weight: 700;
+  border: 4rpx solid var(--foreground);
+}
+.step-on { color: #fff; background: var(--primary); }
+.step-done { color: #fff; background: var(--success, #10B981); }
+.step-off { color: var(--muted-foreground); background: var(--muted); border-color: var(--border); }
+.step-text { margin-left: 10rpx; margin-right: 20rpx; color: var(--foreground); font-size: 24rpx; font-weight: 600; }
+.line { flex: 1; height: 4rpx; background: var(--border); margin-right: 20rpx; }
+
+.content {
+  margin-top: 20rpx; background: var(--card);
+  border: 2rpx solid var(--border); border-radius: var(--radius-lg); padding: 28rpx;
+}
+.title { color: var(--foreground); font-size: 36rpx; font-weight: 800; }
+.subtitle { margin-top: 8rpx; display: block; color: var(--muted-foreground); font-size: 24rpx; }
+
+.tag-list { margin-top: 20rpx; display: flex; flex-wrap: wrap; gap: 12rpx; }
+.tag {
+  padding: 12rpx 24rpx; border-radius: var(--radius-full, 9999rpx);
+  border: 2rpx solid var(--border); color: var(--foreground);
+  background: var(--muted); font-size: 24rpx;
+}
+.tag-on {
+  background: var(--primary); color: var(--primary-foreground);
+  border-color: var(--primary); font-weight: 700;
+}
+
+/* 主按钮 */
+.main-btn {
+  margin-top: 28rpx; width: 100%; height: 92rpx; line-height: 92rpx;
+  border-radius: var(--radius-md); border: none;
+  background: var(--primary); color: var(--primary-foreground);
+  font-size: 30rpx; font-weight: 700;
+  box-shadow: var(--shadow-btn, 0 4rpx 14rpx rgba(168,85,247,0.30));
+}
+.main-btn::after { border: none; }

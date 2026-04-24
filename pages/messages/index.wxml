@@ -1,0 +1,218 @@
+<view class="msg-page">
+  <!-- 顶部搜索栏 -->
+  <view class="search-header">
+    <view class="search-bar">
+      <text class="search-icon">🔍</text>
+      <input
+        class="search-input"
+        placeholder="搜索联系人或消息内容"
+        placeholder-class="search-placeholder"
+        value="{{searchKeyword}}"
+        bindinput="onSearchInput"
+        bindconfirm="onSearchConfirm"
+        confirm-search
+      />
+      <view wx:if="{{searchKeyword}}" class="search-clear" bindtap="clearSearch">
+        <text class="clear-text">✕</text>
+      </view>
+    </view>
+    <view class="header-action-btn" bindtap="showMoreActions">
+      <text class="action-dot">···</text>
+    </view>
+  </view>
+
+  <!-- Tab 导航：私信 | 通知 | 系统 -->
+  <view class="tab-nav">
+    <view
+      wx:for="{{tabs}}"
+      wx:key="key"
+      class="tab-item {{activeTab === item.key ? 'tab-active' : ''}}"
+      data-key="{{item.key}}"
+      bindtap="switchTab"
+    >
+      <view class="tab-label-wrap">
+        <text class="tab-label">{{item.label}}</text>
+        <view wx:if="{{item.count > 0}}" class="tab-badge">{{item.count > 99 ? '99+' : item.count}}</view>
+      </view>
+      <!-- 指示器：跟随每个 tab 文本，仅 active 时显示 -->
+      <view wx:if="{{activeTab === item.key}}" class="tab-indicator"></view>
+    </view>
+  </view>
+
+  <!-- ===== 私信列表 Tab ===== -->
+  <block wx:if="{{activeTab === 'chat'}}">
+    <!-- 活跃用户故事行（类 Instagram Stories） -->
+    <scroll-view class="stories-row" scroll-x enhanced show-scrollbar="{{false}}">
+      <view class="story-item" wx:for="{{activeUsers}}" wx:key="id">
+        <view class="story-ring {{item.hasNew ? 'has-new' : ''}}">
+          <view class="story-avatar">
+            <text class="story-emoji">{{item.avatarEmoji}}</text>
+          </view>
+          <view wx:if="{{item.online}}" class="online-indicator"></view>
+        </view>
+        <text class="story-name">{{item.name}}</text>
+      </view>
+    </scroll-view>
+
+    <!-- 对话列表 -->
+    <scroll-view
+      class="conv-list"
+      scroll-y
+      enhanced
+      show-scrollbar="{{false}}"
+    >
+      <view
+        wx:for="{{filteredConversations}}"
+        wx:key="id"
+        class="conv-item {{item.unread > 0 ? 'conv-unread' : ''}}"
+        data-id="{{item.id}}"
+        bindtap="toChat"
+        bindlongpress="onLongPressItem"
+      >
+        <!-- 头像区域 -->
+        <view class="conv-avatar-wrap">
+          <view class="conv-avatar" style="background: {{item.avatarColor}}">
+            <text class="avatar-emoji">{{item.avatarEmoji}}</text>
+          </view>
+          <!-- 在线状态点 -->
+          <view wx:if="{{item.online}}" class="conv-online-dot"></view>
+          <!-- 未读数角标 -->
+          <view wx:if="{{item.unread > 0}}" class="conv-unread-badge">
+            <text class="unread-num">{{item.unread > 99 ? '99+' : item.unread}}</text>
+          </view>
+          <!-- 已读回执（双✓） -->
+          <view wx:elif="{{item.readReceipt}}" class="read-receipt">
+            <text class="receipt-icon">✓✓</text>
+          </view>
+        </view>
+
+        <!-- 内容区域 -->
+        <view class="conv-body">
+          <view class="conv-top-row">
+            <view class="conv-name-area">
+              <text class="conv-name">{{item.name}}</text>
+              <!-- 认证标识 -->
+              <view wx:if="{{item.verified}}" class="verify-badge">
+                <text class="verify-icon">✓</text>
+              </view>
+              <!-- 靠谱度标签 -->
+              <view class="score-tag">
+                <text class="score-value">{{item.reliabilityScore}}</text>
+              </view>
+            </view>
+            <text class="conv-time">{{item.timeLabel}}</text>
+          </view>
+
+          <view class="conv-bottom-row">
+            <text class="conv-preview {{item.unread > 0 ? 'preview-bold' : ''}}">{{item.lastMessage}}</text>
+            <!-- 消息类型图标 -->
+            <view wx:if="{{item.msgType}}" class="msg-type-icon">
+              <text class="type-icon-text">{{item.msgTypeIcon}}</text>
+            </view>
+          </view>
+
+          <!-- 标签行 -->
+          <view wx:if="{{item.tags && item.tags.length > 0}}" class="conv-tags">
+            <text
+              wx:for="{{item.tags}}"
+              wx:key="*this"
+              wx:for-item="tag"
+              class="mini-tag"
+            >{{tag}}</text>
+          </view>
+        </view>
+
+        <!-- 分隔线 -->
+        <view class="conv-divider"></view>
+      </view>
+
+      <!-- 空状态 -->
+      <view wx:if="{{filteredConversations.length === 0}}" class="empty-state">
+        <view class="empty-illustration">💬</view>
+        <text class="empty-title">暂无私信</text>
+        <text class="empty-desc">去首页匹配搭子，开始聊天吧</text>
+        <button class="home-action-btn" bindtap="toHome">去匹配搭子</button>
+      </view>
+    </scroll-view>
+  </block>
+
+  <!-- ===== 通知列表 Tab ===== -->
+  <block wx:if="{{activeTab === 'notice'}}">
+    <scroll-view class="notice-list" scroll-y enhanced show-scrollbar="{{false}}">
+      <view
+        wx:for="{{notifications}}"
+        wx:key="id"
+        class="notice-item"
+        data-id="{{item.id}}"
+        bindtap="handleNotice"
+      >
+        <view class="notice-icon-wrap notice-{{item.type}}">
+          <text class="notice-icon">{{item.icon}}</text>
+        </view>
+        <view class="notice-body">
+          <view class="notice-title-row">
+            <text class="notice-title">{{item.title}}</text>
+            <view wx:if="{{!item.read}}" class="notice-dot"></view>
+          </view>
+          <text class="notice-desc">{{item.desc}}</text>
+          <text class="notice-time">{{item.time}}</text>
+        </view>
+      </view>
+
+      <view wx:if="{{notifications.length === 0}}" class="empty-state">
+        <text class="empty-illustration">🔔</text>
+        <text class="empty-title">暂无通知</text>
+        <text class="empty-desc">有新消息时这里会显示提醒哦</text>
+      </view>
+    </scroll-view>
+  </block>
+
+  <!-- ===== 系统消息 Tab ===== -->
+  <block wx:if="{{activeTab === 'system'}}">
+    <scroll-view class="system-list" scroll-y enhanced show-scrollbar="{{false}}">
+      <view
+        wx:for="{{systemMessages}}"
+        wx:key="id"
+        class="system-card {{item.priority === 'high' ? 'sys-high' : ''}}"
+        bindtap="handleSystemMsg"
+      >
+        <view class="sys-header">
+          <text class="sys-type-tag sys-{{item.type}}">{{item.typeLabel}}</text>
+          <text class="sys-time">{{item.time}}</text>
+        </view>
+        <text class="sys-title">{{item.title}}</text>
+        <text class="sys-content">{{item.content}}</text>
+        <view wx:if="{{item.actionText}}" class="sys-action" catchtap="onSystemAction" data-id="{{item.id}}">
+          <text class="sys-action-text">{{item.actionText}}</text>
+        </view>
+      </view>
+
+      <view wx:if="{{systemMessages.length === 0}}" class="empty-state">
+        <text class="empty-illustration">📋</text>
+        <text class="empty-title">暂无系统消息</text>
+        <text class="empty-desc">系统公告和活动消息将在此展示</text>
+      </view>
+    </scroll-view>
+  </block>
+
+  <!-- 长按操作面板 -->
+  <view wx:if="{{showActionSheet}}" class="action-sheet-mask" bindtap="hideActionSheet">
+    <view class="action-sheet" catchtap="">
+      <view class="sheet-option" bindtap="markAsRead">
+        <text class="sheet-icon">✓</text>
+        <text class="sheet-text">标记已读</text>
+      </view>
+      <view class="sheet-option" bindtap="pinChat">
+        <text class="sheet-icon">📌</text>
+        <text class="sheet-text">置顶聊天</text>
+      </view>
+      <view class="sheet-option sheet-danger" bindtap="deleteChat">
+        <text class="sheet-icon">🗑</text>
+        <text class="sheet-text">删除对话</text>
+      </view>
+      <view class="sheet-cancel" bindtap="hideActionSheet">
+        <text class="cancel-text">取消</text>
+      </view>
+    </view>
+  </view>
+</view>

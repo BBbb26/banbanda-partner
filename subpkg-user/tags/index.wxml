@@ -1,0 +1,47 @@
+<view class="tag-page">
+  <view class="progress-card">
+    <view class="step {{currentStep==='my' ? 'step-on' : 'step-done'}}">1</view>
+    <text class="step-text">我的标签</text>
+    <view class="line"></view>
+    <view class="step {{currentStep==='expected' ? 'step-on' : 'step-off'}}">2</view>
+    <text class="step-text">期望搭子</text>
+  </view>
+
+  <view wx:if="{{currentStep==='my'}}" class="content">
+    <view class="title">选择你的兴趣标签</view>
+    <text class="subtitle">帮助 AI 更准确地推荐搭子（至少 3 个）</text>
+
+    <view class="tag-list">
+      <view
+        class="tag {{myTagMap[item] ? 'tag-on' : ''}}"
+        wx:for="{{myTagOptions}}"
+        wx:key="*this"
+        data-tag="{{item}}"
+        bindtap="toggleMyTag"
+      >
+        {{item}}
+      </view>
+    </view>
+
+    <button class="main-btn" bindtap="goNext">继续 ({{myTags.length}}/3)</button>
+  </view>
+
+  <view wx:if="{{currentStep==='expected'}}" class="content">
+    <view class="title">期望的搭子特征</view>
+    <text class="subtitle">告诉我们你偏好的搭子类型（可多选）</text>
+
+    <view class="tag-list">
+      <view
+        class="tag {{expectedTagMap[item] ? 'tag-on' : ''}}"
+        wx:for="{{expectedTagOptions}}"
+        wx:key="*this"
+        data-tag="{{item}}"
+        bindtap="toggleExpectedTag"
+      >
+        {{item}}
+      </view>
+    </view>
+
+    <button class="main-btn" bindtap="finishSetup">完成并进入首页</button>
+  </view>
+</view>

@@ -1,0 +1,73 @@
+<view class="verify-page">
+  <view class="header">
+    <view class="header-icon"></view>
+    <view>
+      <view class="header-title">{{title}}</view>
+      <text class="header-sub">保障社区安全，享受学生福利</text>
+    </view>
+  </view>
+
+  <view class="benefits">
+    <view class="benefits-title">为什么需要认证？</view>
+    <view class="benefit-item">- 提升账号可信度，获得更多推荐</view>
+    <view class="benefit-item">- 保障社区安全，筛选真实学生</view>
+    <view class="benefit-item">- 解锁学生专属优惠和活动</view>
+  </view>
+
+  <view wx:if="{{!verificationMethod}}" class="method-list">
+    <view class="section-label">选择认证方式</view>
+    <button class="method-card" data-method="student-card" bindtap="selectMethod">
+      <view class="method-title">学生证认证</view>
+      <text class="method-desc">上传学生证照片，3分钟快速审核</text>
+    </button>
+    <button class="method-card method-card-lite" data-method="student-id" bindtap="selectMethod">
+      <view class="method-title">学号认证</view>
+      <text class="method-desc">输入学校和学号信息进行验证</text>
+    </button>
+  </view>
+
+  <view wx:if="{{verificationMethod==='student-card'}}" class="form-wrap">
+    <view class="form-head">
+      <view class="form-title">学生证认证</view>
+      <text class="switch-link" bindtap="resetMethod">更换方式</text>
+    </view>
+
+    <view class="upload-box" bindtap="chooseFile">
+      <view wx:if="{{uploadedFile}}">
+        <view class="ok-text">已上传：{{uploadedFile}}</view>
+        <text class="tip-text">点击重新上传</text>
+      </view>
+      <view wx:else>
+        <view class="upload-title">上传学生证照片</view>
+        <text class="tip-text">支持 JPG、PNG，不超过 5MB</text>
+      </view>
+    </view>
+
+    <button class="submit-btn" bindtap="handleVerify">提交审核</button>
+  </view>
+
+  <view wx:if="{{verificationMethod==='student-id'}}" class="form-wrap">
+    <view class="form-head">
+      <view class="form-title">学号认证</view>
+      <text class="switch-link" bindtap="resetMethod">更换方式</text>
+    </view>
+
+    <view class="field">
+      <view class="field-label">选择学校</view>
+      <picker mode="selector" range="{{schools}}" bindchange="onSchoolChange">
+        <view class="field-box">{{school || '请选择学校'}}</view>
+      </picker>
+    </view>
+
+    <view class="field">
+      <view class="field-label">学号</view>
+      <input class="field-input" placeholder="请输入你的学号" bindinput="onStudentIdInput" value="{{studentId}}" />
+    </view>
+
+    <button class="submit-btn" bindtap="handleVerify">提交认证</button>
+  </view>
+
+  <view class="footer">
+    <text class="skip-text" bindtap="handleSkip">暂不认证，稍后再说</text>
+  </view>
+</view>
