@@ -63,21 +63,3 @@
 3.  **专业文档撰写**: 本 `README.md` 文件以及项目的深度分析报告，均由 AI 辅助生成。AI 能够根据要求，产出结构清晰、语言专业、可直接用于作品集或面试的文档。
 4.  **技术方案建议**: AI 针对项目现状，提出了包括“组件化封装”、“长列表性能优化”、“全局状态管理演进”等多项具有建设性的技术优化建议。
 
-## 📱 体验版二维码 (Trial QR Code)
-
-> [!NOTE]
-> 请在此处替换为您的真实小程序体验版二维码图片。
-> (Please replace this with your Mini Program's trial QR code.)
-
-![小程序体验版二维码](https://via.placeholder.com/200x200.png?text=Scan+Me)
-
-## 📊 数据成果 (Data Achievements)
-
-> [!NOTE]
-> 以下为数据成果的示例，请根据您的实际运营数据进行填充。
-> (The following are examples of data achievements. Please fill them in with your actual operational data.)
-
-- **用户增长**: 上线首月，实现用户量从 0 到 **1,000+** 的冷启动。
-- **用户留存**: 次日留存率达到 **40%**，七日留存率稳定在 **20%**。
-- **核心功能使用率**: 每日发起“找搭子”匹配的用户占日活用户的 **60%** 以上。
-- **社区活跃度**: 每日在“校园圈”产生 **500+** 条新动态。
