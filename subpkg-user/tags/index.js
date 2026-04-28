@@ -73,9 +73,30 @@ Page({
   },
 
   finishSetup() {
-    wx.switchTab({
-      url: "/pages/home/index"
+    // 更新全局标签完成状态
+    const app = getApp();
+    app.globalData.hasCompletedTags = true;
+
+    wx.showToast({
+      title: "设置完成",
+      icon: "success",
+      duration: 1500
     });
+
+    // 延迟返回个人资料页
+    setTimeout(() => {
+      wx.switchTab({
+        url: "/pages/profile/index",
+        success: () => {
+          console.log("[Tags] 成功返回个人资料页");
+        },
+        fail: (err) => {
+          console.error("[Tags] 返回个人资料页失败:", err);
+          // 降级到首页
+          wx.switchTab({ url: "/pages/home/index" });
+        }
+      });
+    }, 1500);
   }
 
 });

@@ -56,15 +56,29 @@ Page({
       });
       return;
     }
+
+    // 更新全局认证状态
+    const app = getApp();
+    app.globalData.hasCompletedVerification = true;
+
     wx.showModal({
       title: "认证提交成功",
-      content: "是否立即领取 7 天 VIP 体验？",
-      confirmText: "立即领取",
-      cancelText: "暂不领取",
-      success: () => {
-        wx.redirectTo({
-          url: "/subpkg-user/tags/index"
-        });
+      content: "是否立即设置兴趣标签？",
+      confirmText: "去设置",
+      cancelText: "稍后再说",
+      success: (res) => {
+        if (res.confirm) {
+          wx.redirectTo({
+            url: "/subpkg-user/tags/index"
+          });
+        } else {
+          // 返回个人资料页
+          wx.navigateBack({
+            success: () => {
+              wx.showToast({ title: "认证完成", icon: "success" });
+            }
+          });
+        }
       }
     });
   },

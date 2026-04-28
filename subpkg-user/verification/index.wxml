@@ -1,7 +1,7 @@
 <view class="verify-page">
   <view class="header">
     <view class="header-icon"></view>
-    <view>
+    <view class="header-text">
       <view class="header-title">{{title}}</view>
       <text class="header-sub">保障社区安全，享受学生福利</text>
     </view>
@@ -17,12 +17,16 @@
   <view wx:if="{{!verificationMethod}}" class="method-list">
     <view class="section-label">选择认证方式</view>
     <button class="method-card" data-method="student-card" bindtap="selectMethod">
-      <view class="method-title">学生证认证</view>
-      <text class="method-desc">上传学生证照片，3分钟快速审核</text>
+      <view class="method-content">
+        <view class="method-title">学生证认证</view>
+        <text class="method-desc">上传学生证照片，3分钟快速审核</text>
+      </view>
     </button>
     <button class="method-card method-card-lite" data-method="student-id" bindtap="selectMethod">
-      <view class="method-title">学号认证</view>
-      <text class="method-desc">输入学校和学号信息进行验证</text>
+      <view class="method-content">
+        <view class="method-title">学号认证</view>
+        <text class="method-desc">输入学校和学号信息进行验证</text>
+      </view>
     </button>
   </view>
 
