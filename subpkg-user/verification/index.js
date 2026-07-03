@@ -5,51 +5,80 @@ Page({
     school: "",
     studentId: "",
     uploadedFile: "",
-    schools: ["清华大学", "北京大学", "浙江工业大学", "复旦大学", "上海交通大学"]
+    isFormValid: false,
+    schools: [
+      "清华大学", "北京大学", "浙江工业大学", "复旦大学",
+      "上海交通大学", "浙江大学", "南京大学", "武汉大学",
+      "中山大学", "四川大学", "华中科技大学", "同济大学"
+    ]
   },
-  selectMethod(e) {
+
+  _updateFormValid: function () {
+    var valid = false;
+    if (this.data.verificationMethod === "student-card" && !!this.data.uploadedFile) {
+      valid = true;
+    }
+    if (this.data.verificationMethod === "student-id" && !!this.data.school && !!this.data.studentId) {
+      valid = true;
+    }
+    this.setData({ isFormValid: valid });
+  },
+
+  selectMethod: function (e) {
     this.setData({
       verificationMethod: e.currentTarget.dataset.method
+    }, function () {
+      this._updateFormValid();
     });
   },
-  resetMethod() {
+
+  resetMethod: function () {
     this.setData({
       verificationMethod: "",
       school: "",
       studentId: "",
-      uploadedFile: ""
+      uploadedFile: "",
+      isFormValid: false
     });
   },
-  onSchoolChange(e) {
-    const index = Number(e.detail.value || 0);
+
+  onSchoolChange: function (e) {
+    var index = Number(e.detail.value || 0);
     this.setData({
       school: this.data.schools[index]
+    }, function () {
+      this._updateFormValid();
     });
   },
-  onStudentIdInput(e) {
+
+  onStudentIdInput: function (e) {
     this.setData({
       studentId: e.detail.value
+    }, function () {
+      this._updateFormValid();
     });
   },
-  chooseFile() {
+
+  chooseFile: function () {
+    var that = this;
     wx.chooseImage({
       count: 1,
       sizeType: ["compressed"],
       sourceType: ["album", "camera"],
-      success: (res) => {
-        const filePath = res.tempFilePaths[0] || "";
-        const fileName = filePath.split("/").pop() || "已选择图片";
-        this.setData({
+      success: function (res) {
+        var filePath = res.tempFilePaths[0] || "";
+        var fileName = filePath.split("/").pop() || "已选择图片";
+        that.setData({
           uploadedFile: fileName
+        }, function () {
+          that._updateFormValid();
         });
       }
     });
   },
-  handleVerify() {
-    const readyForCard = this.data.verificationMethod === "student-card" && !!this.data.uploadedFile;
-    const readyForId =
-      this.data.verificationMethod === "student-id" && !!this.data.school && !!this.data.studentId;
-    if (!readyForCard && !readyForId) {
+
+  handleVerify: function () {
+    if (!this.data.isFormValid) {
       wx.showToast({
         title: "请先补全认证信息",
         icon: "none"
@@ -57,8 +86,7 @@ Page({
       return;
     }
 
-    // 更新全局认证状态
-    const app = getApp();
+    var app = getApp();
     app.globalData.hasCompletedVerification = true;
 
     wx.showModal({
@@ -66,15 +94,14 @@ Page({
       content: "是否立即设置兴趣标签？",
       confirmText: "去设置",
       cancelText: "稍后再说",
-      success: (res) => {
+      success: function (res) {
         if (res.confirm) {
           wx.redirectTo({
             url: "/subpkg-user/tags/index"
           });
         } else {
-          // 返回个人资料页
           wx.navigateBack({
-            success: () => {
+            success: function () {
               wx.showToast({ title: "认证完成", icon: "success" });
             }
           });
@@ -82,7 +109,8 @@ Page({
       }
     });
   },
-  handleSkip() {
+
+  handleSkip: function () {
     wx.redirectTo({
       url: "/subpkg-user/tags/index"
     });

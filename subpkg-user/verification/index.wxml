@@ -1,77 +1,184 @@
 <view class="verify-page">
-  <view class="header">
-    <view class="header-icon"></view>
-    <view class="header-text">
-      <view class="header-title">{{title}}</view>
-      <text class="header-sub">保障社区安全，享受学生福利</text>
+  <!-- 顶部进度指示 -->
+  <view class="progress-bar-wrap">
+    <view class="progress-track">
+      <view class="progress-fill" style="width: {{verificationMethod ? '100%' : '50%'}};"></view>
+    </view>
+    <view class="progress-steps">
+      <view class="p-step {{verificationMethod ? 'p-step-done' : 'p-step-active'}}">
+        <view class="p-step-dot">
+          <text wx:if="{{verificationMethod}}" class="p-step-check">✓</text>
+          <text wx:else>1</text>
+        </view>
+        <text class="p-step-label">选择方式</text>
+      </view>
+      <view class="p-step {{verificationMethod ? 'p-step-active' : ''}}">
+        <view class="p-step-dot">2</view>
+        <text class="p-step-label">填写信息</text>
+      </view>
     </view>
   </view>
 
-  <view class="benefits">
-    <view class="benefits-title">为什么需要认证？</view>
-    <view class="benefit-item">- 提升账号可信度，获得更多推荐</view>
-    <view class="benefit-item">- 保障社区安全，筛选真实学生</view>
-    <view class="benefit-item">- 解锁学生专属优惠和活动</view>
-  </view>
-
-  <view wx:if="{{!verificationMethod}}" class="method-list">
-    <view class="section-label">选择认证方式</view>
-    <button class="method-card" data-method="student-card" bindtap="selectMethod">
-      <view class="method-content">
-        <view class="method-title">学生证认证</view>
-        <text class="method-desc">上传学生证照片，3分钟快速审核</text>
+  <scroll-view scroll-y class="verify-scroll" enhanced show-scrollbar="{{false}}">
+    <!-- 头部品牌区 -->
+    <view class="hero-section">
+      <view class="hero-icon-wrap">
+        <view class="hero-icon-bg"></view>
+        <text class="hero-icon-text">🛡️</text>
       </view>
-    </button>
-    <button class="method-card method-card-lite" data-method="student-id" bindtap="selectMethod">
-      <view class="method-content">
-        <view class="method-title">学号认证</view>
-        <text class="method-desc">输入学校和学号信息进行验证</text>
-      </view>
-    </button>
-  </view>
-
-  <view wx:if="{{verificationMethod==='student-card'}}" class="form-wrap">
-    <view class="form-head">
-      <view class="form-title">学生证认证</view>
-      <text class="switch-link" bindtap="resetMethod">更换方式</text>
-    </view>
-
-    <view class="upload-box" bindtap="chooseFile">
-      <view wx:if="{{uploadedFile}}">
-        <view class="ok-text">已上传：{{uploadedFile}}</view>
-        <text class="tip-text">点击重新上传</text>
-      </view>
-      <view wx:else>
-        <view class="upload-title">上传学生证照片</view>
-        <text class="tip-text">支持 JPG、PNG，不超过 5MB</text>
+      <view class="hero-text">
+        <text class="hero-title">{{title}}</text>
+        <text class="hero-sub">保障社区安全，享受学生专属福利</text>
       </view>
     </view>
 
-    <button class="submit-btn" bindtap="handleVerify">提交审核</button>
-  </view>
-
-  <view wx:if="{{verificationMethod==='student-id'}}" class="form-wrap">
-    <view class="form-head">
-      <view class="form-title">学号认证</view>
-      <text class="switch-link" bindtap="resetMethod">更换方式</text>
+    <!-- 权益说明 -->
+    <view class="benefits-card">
+      <view class="benefits-header">
+        <text class="benefits-icon">✨</text>
+        <text class="benefits-title">认证权益</text>
+      </view>
+      <view class="benefits-grid">
+        <view class="benefit-item">
+          <view class="benefit-dot"></view>
+          <text class="benefit-text">提升账号可信度，获得更多推荐</text>
+        </view>
+        <view class="benefit-item">
+          <view class="benefit-dot"></view>
+          <text class="benefit-text">保障社区安全，筛选真实学生</text>
+        </view>
+        <view class="benefit-item">
+          <view class="benefit-dot"></view>
+          <text class="benefit-text">解锁学生专属优惠和活动</text>
+        </view>
+      </view>
     </view>
 
-    <view class="field">
-      <view class="field-label">选择学校</view>
-      <picker mode="selector" range="{{schools}}" bindchange="onSchoolChange">
-        <view class="field-box">{{school || '请选择学校'}}</view>
-      </picker>
+    <!-- 认证方式选择 -->
+    <view wx:if="{{!verificationMethod}}" class="method-section">
+      <text class="section-label">选择认证方式</text>
+
+      <view class="method-card" data-method="student-card" bindtap="selectMethod">
+        <view class="method-left">
+          <view class="method-icon method-icon-primary">
+            <text class="method-icon-emoji">🎓</text>
+          </view>
+          <view class="method-info">
+            <text class="method-title">学生证认证</text>
+            <text class="method-desc">上传学生证照片，3分钟快速审核</text>
+          </view>
+        </view>
+        <text class="method-arrow">›</text>
+      </view>
+
+      <view class="method-card" data-method="student-id" bindtap="selectMethod">
+        <view class="method-left">
+          <view class="method-icon method-icon-secondary">
+            <text class="method-icon-emoji">📋</text>
+          </view>
+          <view class="method-info">
+            <text class="method-title">学号认证</text>
+            <text class="method-desc">输入学校和学号信息进行验证</text>
+          </view>
+        </view>
+        <text class="method-arrow">›</text>
+      </view>
     </view>
 
-    <view class="field">
-      <view class="field-label">学号</view>
-      <input class="field-input" placeholder="请输入你的学号" bindinput="onStudentIdInput" value="{{studentId}}" />
+    <!-- 学生证认证表单 -->
+    <view wx:if="{{verificationMethod === 'student-card'}}" class="form-section">
+      <view class="form-header">
+        <view class="form-header-left">
+          <view class="form-header-icon">
+            <text>🎓</text>
+          </view>
+          <text class="form-title">学生证认证</text>
+        </view>
+        <text class="switch-link" bindtap="resetMethod">更换方式</text>
+      </view>
+
+      <view class="upload-area" bindtap="chooseFile">
+        <view wx:if="{{uploadedFile}}" class="upload-uploaded">
+          <view class="upload-success-icon">
+            <text class="upload-check">✓</text>
+          </view>
+          <text class="upload-filename">{{uploadedFile}}</text>
+          <text class="upload-reupload">点击重新上传</text>
+        </view>
+        <view wx:else class="upload-empty">
+          <view class="upload-icon-circle">
+            <text class="upload-plus">+</text>
+          </view>
+          <text class="upload-label">上传学生证照片</text>
+          <text class="upload-hint">支持 JPG、PNG，不超过 5MB</text>
+        </view>
+      </view>
+
+      <view class="form-tip">
+        <text class="tip-icon">💡</text>
+        <text class="tip-text">请确保照片清晰可见，包含姓名和学校信息</text>
+      </view>
     </view>
 
-    <button class="submit-btn" bindtap="handleVerify">提交认证</button>
-  </view>
+    <!-- 学号认证表单 -->
+    <view wx:if="{{verificationMethod === 'student-id'}}" class="form-section">
+      <view class="form-header">
+        <view class="form-header-left">
+          <view class="form-header-icon">
+            <text>📋</text>
+          </view>
+          <text class="form-title">学号认证</text>
+        </view>
+        <text class="switch-link" bindtap="resetMethod">更换方式</text>
+      </view>
 
-  <view class="footer">
-    <text class="skip-text" bindtap="handleSkip">暂不认证，稍后再说</text>
+      <view class="field-group">
+        <view class="field">
+          <text class="field-label">选择学校</text>
+          <picker mode="selector" range="{{schools}}" bindchange="onSchoolChange">
+            <view class="field-box {{school ? 'field-box-filled' : ''}}">
+              <text class="field-box-text">{{school || '请选择你的学校'}}</text>
+              <text class="field-box-arrow">›</text>
+            </view>
+          </picker>
+        </view>
+
+        <view class="field">
+          <text class="field-label">学号</text>
+          <view class="field-input-wrap">
+            <input
+              class="field-input"
+              placeholder="请输入你的学号"
+              bindinput="onStudentIdInput"
+              value="{{studentId}}"
+            />
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <view class="bottom-spacer"></view>
+  </scroll-view>
+
+  <!-- 底部固定操作栏 -->
+  <view class="bottom-bar">
+    <view class="bottom-bar-inner">
+      <text class="skip-btn" bindtap="handleSkip">暂不认证</text>
+      <button
+        wx:if="{{verificationMethod}}"
+        class="submit-btn {{isFormValid ? '' : 'submit-btn-disabled'}}"
+        bindtap="handleVerify"
+        disabled="{{!isFormValid}}"
+      >
+        {{verificationMethod === 'student-card' ? '提交审核' : '提交认证'}}
+      </button>
+      <button
+        wx:else
+        class="submit-btn submit-btn-disabled"
+        disabled="{{true}}"
+      >
+        请先选择认证方式
+      </button>
+    </view>
   </view>
 </view>

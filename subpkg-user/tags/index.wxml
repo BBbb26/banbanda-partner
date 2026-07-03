@@ -1,47 +1,138 @@
 <view class="tag-page">
-  <view class="progress-card">
-    <view class="step {{currentStep==='my' ? 'step-on' : 'step-done'}}">1</view>
-    <text class="step-text">我的标签</text>
-    <view class="line"></view>
-    <view class="step {{currentStep==='expected' ? 'step-on' : 'step-off'}}">2</view>
-    <text class="step-text">期望搭子</text>
+  <!-- 顶部进度条 -->
+  <view class="progress-bar-wrap">
+    <view class="progress-track">
+      <view class="progress-fill {{currentStep === 'expected' ? 'full' : ''}}" style="width: {{currentStep === 'expected' ? '100%' : '50%'}};"></view>
+    </view>
+    <view class="progress-steps">
+      <view class="p-step {{currentStep === 'my' || currentStep === 'expected' ? 'p-step-done' : ''}}">
+        <view class="p-step-dot">
+          <text wx:if="{{currentStep === 'expected'}}" class="p-step-check">✓</text>
+          <text wx:else>1</text>
+        </view>
+        <text class="p-step-label">我的标签</text>
+      </view>
+      <view class="p-step {{currentStep === 'expected' ? 'p-step-active' : ''}}">
+        <view class="p-step-dot">2</view>
+        <text class="p-step-label">期望搭子</text>
+      </view>
+    </view>
   </view>
 
-  <view wx:if="{{currentStep==='my'}}" class="content">
-    <view class="title">选择你的兴趣标签</view>
-    <text class="subtitle">帮助 AI 更准确地推荐搭子（至少 3 个）</text>
+  <!-- 步骤一：我的标签 -->
+  <scroll-view wx:if="{{currentStep === 'my'}}" scroll-y class="tag-scroll" enhanced show-scrollbar="{{false}}">
+    <view class="section-header">
+      <text class="section-title">选择你的兴趣标签</text>
+      <text class="section-sub">帮助 AI 更准确地推荐搭子（至少 3 个）</text>
+    </view>
 
-    <view class="tag-list">
-      <view
-        class="tag {{myTagMap[item] ? 'tag-on' : ''}}"
-        wx:for="{{myTagOptions}}"
-        wx:key="*this"
-        data-tag="{{item}}"
-        bindtap="toggleMyTag"
-      >
-        {{item}}
+    <view class="selected-summary" wx:if="{{myTags.length > 0}}">
+      <text class="summary-label">已选</text>
+      <scroll-view scroll-x class="summary-tags" enhanced show-scrollbar="{{false}}">
+        <view class="summary-tag" wx:for="{{myTags}}" wx:key="*this">
+          {{item}}
+        </view>
+      </scroll-view>
+      <text class="summary-count {{myTags.length >= 3 ? 'count-ok' : ''}}">{{myTags.length}}/3</text>
+    </view>
+
+    <view class="category-list">
+      <view class="category-group" wx:for="{{myCategories}}" wx:key="id">
+        <view class="category-header" bindtap="toggleCategory" data-id="{{item.id}}" data-step="my">
+          <view class="category-left">
+            <view class="category-icon"><text>{{item.icon}}</text></view>
+            <text class="category-name">{{item.name}}</text>
+          </view>
+          <view class="category-right">
+            <text class="category-count" wx:if="{{item.selectedCount > 0}}">{{item.selectedCount}}</text>
+            <text class="category-arrow {{item.expanded ? 'arrow-up' : ''}}">›</text>
+          </view>
+        </view>
+        <view class="category-tags {{item.expanded ? 'tags-expanded' : 'tags-collapsed'}}">
+          <view
+            class="tag-item {{myTagMap[tag] ? 'tag-selected' : ''}}"
+            wx:for="{{item.tags}}"
+            wx:for-item="tag"
+            wx:key="*this"
+            data-tag="{{tag}}"
+            bindtap="toggleMyTag"
+          >
+            <text class="tag-text">{{tag}}</text>
+            <text wx:if="{{myTagMap[tag]}}" class="tag-check">✓</text>
+          </view>
+        </view>
       </view>
     </view>
 
-    <button class="main-btn" bindtap="goNext">继续 ({{myTags.length}}/3)</button>
-  </view>
+    <view class="bottom-spacer"></view>
+  </scroll-view>
 
-  <view wx:if="{{currentStep==='expected'}}" class="content">
-    <view class="title">期望的搭子特征</view>
-    <text class="subtitle">告诉我们你偏好的搭子类型（可多选）</text>
+  <!-- 步骤二：期望搭子 -->
+  <scroll-view wx:if="{{currentStep === 'expected'}}" scroll-y class="tag-scroll" enhanced show-scrollbar="{{false}}">
+    <view class="section-header">
+      <text class="section-title">期望的搭子特征</text>
+      <text class="section-sub">告诉我们你偏好的搭子类型（可多选）</text>
+    </view>
 
-    <view class="tag-list">
-      <view
-        class="tag {{expectedTagMap[item] ? 'tag-on' : ''}}"
-        wx:for="{{expectedTagOptions}}"
-        wx:key="*this"
-        data-tag="{{item}}"
-        bindtap="toggleExpectedTag"
-      >
-        {{item}}
+    <view class="selected-summary" wx:if="{{expectedTags.length > 0}}">
+      <text class="summary-label">已选</text>
+      <scroll-view scroll-x class="summary-tags" enhanced show-scrollbar="{{false}}">
+        <view class="summary-tag" wx:for="{{expectedTags}}" wx:key="*this">
+          {{item}}
+        </view>
+      </scroll-view>
+      <text class="summary-count count-ok">{{expectedTags.length}}</text>
+    </view>
+
+    <view class="category-list">
+      <view class="category-group" wx:for="{{expectedCategories}}" wx:key="id">
+        <view class="category-header" bindtap="toggleCategory" data-id="{{item.id}}" data-step="expected">
+          <view class="category-left">
+            <view class="category-icon"><text>{{item.icon}}</text></view>
+            <text class="category-name">{{item.name}}</text>
+          </view>
+          <view class="category-right">
+            <text class="category-count" wx:if="{{item.selectedCount > 0}}">{{item.selectedCount}}</text>
+            <text class="category-arrow {{item.expanded ? 'arrow-up' : ''}}">›</text>
+          </view>
+        </view>
+        <view class="category-tags {{item.expanded ? 'tags-expanded' : 'tags-collapsed'}}">
+          <view
+            class="tag-item {{expectedTagMap[tag] ? 'tag-selected' : ''}}"
+            wx:for="{{item.tags}}"
+            wx:for-item="tag"
+            wx:key="*this"
+            data-tag="{{tag}}"
+            bindtap="toggleExpectedTag"
+          >
+            <text class="tag-text">{{tag}}</text>
+            <text wx:if="{{expectedTagMap[tag]}}" class="tag-check">✓</text>
+          </view>
+        </view>
       </view>
     </view>
 
-    <button class="main-btn" bindtap="finishSetup">完成并进入首页</button>
+    <view class="bottom-spacer"></view>
+  </scroll-view>
+
+  <!-- 底部固定操作栏 -->
+  <view class="bottom-bar">
+    <view class="bottom-bar-inner">
+      <view class="bar-info" wx:if="{{currentStep === 'my'}}">
+        <text class="bar-hint {{myTags.length >= 3 ? 'hint-ok' : ''}}">
+          {{myTags.length >= 3 ? '已满足最低要求，可继续选择' : '还需选择 ' + (3 - myTags.length) + ' 个标签'}}
+        </text>
+      </view>
+      <view class="bar-info" wx:else>
+        <text class="bar-hint hint-ok">已选择 {{expectedTags.length}} 个偏好</text>
+      </view>
+      <button
+        class="bar-btn {{currentStep === 'my' && myTags.length < 3 ? 'bar-btn-disabled' : ''}}"
+        bindtap="{{currentStep === 'my' ? 'goNext' : 'finishSetup'}}"
+        disabled="{{currentStep === 'my' && myTags.length < 3}}"
+      >
+        {{currentStep === 'my' ? '继续 →' : '完成设置'}}
+      </button>
+    </view>
   </view>
 </view>
